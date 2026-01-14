@@ -2,20 +2,22 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import MusicPlayer from "@/components/MusicPlayer";
 import Stats from "@/components/Stats";
-import Experience from "@/components/Experience"; // You create this from HTML
+import Experience from "@/components/Experience"; 
 import Projects from "@/components/Projects";
-import Skills from "@/components/Skills"; // You create this from HTML
+import Skills from "@/components/Skills"; 
 import Photography from "@/components/Photography";
 import Contact from "@/components/Contact";
+import ScrollAnimations from "@/components/ScrollAnimations"; // Import the new component
 
 export default function Home() {
   return (
     <main>
+      <ScrollAnimations />
       <MusicPlayer />
       <Navbar />
       <Hero />
       <Stats />
-      <Experience />
+      <Experience /> 
       <Projects />
       <Skills />
       <Photography />

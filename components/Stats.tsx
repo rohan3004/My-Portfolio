@@ -18,38 +18,47 @@ const COLORS = {
 export default function Stats() {
   const lineChartRef = useRef<HTMLCanvasElement>(null);
   const pieChartRef = useRef<HTMLCanvasElement>(null);
-  const chartInstance = useRef<Chart | null>(null);
+  const lineChartInstance = useRef<Chart | null>(null);
+  const pieChartInstance = useRef<Chart | null>(null);
+  
   const [platform, setPlatform] = useState("leetcode");
-  const [summary, setSummary] = useState("");
+  const [summary, setSummary] = useState("Loading stats...");
   const [apiData, setApiData] = useState<any>(null);
 
-  // Fetch Data
+  // 1. Fetch Data
   useEffect(() => {
-    fetch('https://apis.byrohan.in/v1/reports/rohan.chakravarty02@gmail.com')
+    fetch('http://localhost:8443/v1/reports/rohan.chakravarty02@gmail.com')
       .then(res => res.json())
       .then(data => setApiData(data))
-      .catch(err => console.error("Stats fetch error:", err));
+      .catch(err => {
+        console.error("Stats fetch error:", err);
+        setSummary("Failed to load statistics.");
+      });
   }, []);
 
-  // Pie Chart Effect
+  // 2. Pie Chart Logic
   useEffect(() => {
-    if (!apiData || !pieChartRef.current) return;
+    if (!pieChartRef.current) return;
     
-    const dataValues = [
+    if (pieChartInstance.current) {
+        pieChartInstance.current.destroy();
+    }
+
+    const dataValues = apiData ? [
       apiData.codechef?.problems_solved_total || 0,
       apiData.codeforces?.problems_solved_total || 0,
       apiData.leetcode?.problems_solved_easy || 0,
       apiData.leetcode?.problems_solved_medium || 0,
       apiData.leetcode?.problems_solved_hard || 0,
       apiData.geeksforgeeks?.problems_solved_total || 0
-    ];
+    ] : [1, 1, 1, 1, 1, 1]; 
 
     const centerTextPlugin = {
       id: 'centerText',
       beforeDraw: function(chart: any) {
         const { ctx } = chart;
         ctx.restore();
-        const total = chart.config.data.datasets[0].data.reduce((a: number, b: number) => a + b, 0);
+        const total = apiData ? chart.config.data.datasets[0].data.reduce((a: number, b: number) => a + b, 0) : "...";
         const meta = chart.getDatasetMeta(0);
         if (!meta.data[0]) return;
         
@@ -57,7 +66,7 @@ export default function Stats() {
         const centerX = meta.data[0].x;
         const centerY = meta.data[0].y;
 
-        ctx.font = `bold ${(innerRadius * 0.6).toFixed(2)}px Poppins`;
+        ctx.font = `bold ${(innerRadius * 0.5).toFixed(2)}px Poppins`;
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'center';
         ctx.fillStyle = COLORS.text;
@@ -70,7 +79,7 @@ export default function Stats() {
       }
     };
 
-    const chart = new Chart(pieChartRef.current, {
+    pieChartInstance.current = new Chart(pieChartRef.current, {
       type: 'doughnut',
       data: {
         labels: ['CodeChef', 'Codeforces', 'LC Easy', 'LC Medium', 'LC Hard', 'GFG'],
@@ -83,7 +92,7 @@ export default function Stats() {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: false, 
         cutout: '75%',
         layout: { padding: 20 },
         plugins: {
@@ -93,16 +102,25 @@ export default function Stats() {
       plugins: [centerTextPlugin]
     });
 
-    return () => chart.destroy();
+    return () => {
+        if(pieChartInstance.current) pieChartInstance.current.destroy();
+    };
   }, [apiData]);
 
-  // Line Chart Effect
+  // 3. Line Chart Logic
   useEffect(() => {
-    if (!apiData || !lineChartRef.current) return;
+    if (!lineChartRef.current) return;
+    if (lineChartInstance.current) {
+        lineChartInstance.current.destroy();
+    }
 
-    let trend: { labels: string[], data: number[] } = { labels: [], data: [] };
-    let html = "";
+    let trend: { labels: string[], data: number[] } = { 
+        labels: Array(10).fill(''), 
+        data: Array(10).fill(0) 
+    };
     
+    let html = `I have participated in <span class="highlight">...</span> LeetCode events.`;
+
     const generateSimulatedTrend = (plat: string, current: number, max: number, pointsCount: number) => {
       const data = [];
       const labels = [];
@@ -125,27 +143,27 @@ export default function Stats() {
       return { labels, data };
     };
 
-    if (platform === 'leetcode' && apiData.leetcode) {
-        const d = apiData.leetcode;
-        trend = generateSimulatedTrend('LeetCode', d.rating, d.rating, 12);
-        html = `I have participated in <span class="highlight">${d.contests_attended}</span> LeetCode events. Rating: <span class="highlight">${d.rating}</span>.`;
-    } else if (platform === 'codeforces' && apiData.codeforces) {
-        const d = apiData.codeforces;
-        trend = generateSimulatedTrend('Codeforces', d.rating, d.rating_max, 10);
-        html = `Codeforces Rating: <span class="highlight">${d.rating}</span> (Max: <span class="highlight">${d.rating_max}</span>).`;
-    } else if (platform === 'codechef' && apiData.codechef) {
-        const d = apiData.codechef;
-        trend = generateSimulatedTrend('CodeChef', d.rating, d.rating, 8);
-        html = `CodeChef Rating: <span class="highlight">${d.rating}</span>.`;
-    } else if (platform === 'geeksforgeeks' && apiData.geeksforgeeks) {
-        const d = apiData.geeksforgeeks;
-        const score = d.problems_solved_total || 0;
-        trend = generateSimulatedTrend('GFG', score, score, 15);
-        html = `Solved <span class="highlight">${score}</span> problems on GFG. Streak: <span class="highlight">${d.streak_current}</span>.`;
+    if (apiData) {
+        if (platform === 'leetcode' && apiData.leetcode) {
+            const d = apiData.leetcode;
+            trend = generateSimulatedTrend('LeetCode', d.rating, d.rating, 12);
+            html = `I have participated in <span class="highlight">${d.contests_attended}</span> LeetCode events. Rating: <span class="highlight">${d.rating}</span>.`;
+        } else if (platform === 'codeforces' && apiData.codeforces) {
+            const d = apiData.codeforces;
+            trend = generateSimulatedTrend('Codeforces', d.rating, d.rating_max, 10);
+            html = `Codeforces Rating: <span class="highlight">${d.rating}</span> (Max: <span class="highlight">${d.rating_max}</span>).`;
+        } else if (platform === 'codechef' && apiData.codechef) {
+            const d = apiData.codechef;
+            trend = generateSimulatedTrend('CodeChef', d.rating, d.rating, 8);
+            html = `CodeChef Rating: <span class="highlight">${d.rating}</span>.`;
+        } else if (platform === 'geeksforgeeks' && apiData.geeksforgeeks) {
+            const d = apiData.geeksforgeeks;
+            const score = d.problems_solved_total || 0;
+            trend = generateSimulatedTrend('GFG', score, score, 15);
+            html = `Solved <span class="highlight">${score}</span> problems on GFG. Streak: <span class="highlight">${d.streak_current}</span>.`;
+        }
+        setSummary(html);
     }
-    setSummary(html);
-
-    if (chartInstance.current) chartInstance.current.destroy();
 
     const ctx = lineChartRef.current.getContext('2d');
     if(ctx) {
@@ -153,7 +171,7 @@ export default function Stats() {
       gradient.addColorStop(0, COLORS.lineFillTop);
       gradient.addColorStop(1, COLORS.lineFillBottom);
 
-      chartInstance.current = new Chart(lineChartRef.current, {
+      lineChartInstance.current = new Chart(lineChartRef.current, {
         type: 'line',
         data: {
             labels: trend.labels,
@@ -174,14 +192,12 @@ export default function Stats() {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true, 
-            aspectRatio: 2,
+            maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
                 x: { display: false },
                 y: { 
                   border: { display: false }, 
-                  // FIX IS HERE: Cast to 'any' to bypass strict TS check for borderDash
                   grid: { color: COLORS.grid, borderDash: [5, 5] } as any, 
                   ticks: { color: COLORS.textDim } 
                 }
@@ -190,6 +206,10 @@ export default function Stats() {
       });
     }
 
+    return () => {
+        if(lineChartInstance.current) lineChartInstance.current.destroy();
+    };
+
   }, [platform, apiData]);
 
   return (
@@ -197,23 +217,29 @@ export default function Stats() {
       <p className="section__text__p1">Get To Know My Statistics</p>
       <h1 className="title">Fundamentals</h1>
       <div className="section-container">
+        
+        {/* PIE CHART WRAPPER: Constrained Dimensions */}
         <div 
           className="section__pic-container" 
           style={{ 
             position: 'relative', 
             width: '100%', 
-            maxWidth: '800px', 
-            margin: 'auto', 
-            height: '500px' 
+            maxWidth: '500px', 
+            height: '400px', 
+            margin: 'auto' 
           }}
         >
-          <canvas ref={pieChartRef}></canvas>
+          <canvas ref={pieChartRef} style={{ width: '100%', height: '100%' }}></canvas>
         </div>
 
         <div className="about-details-container">
-          <div className="about-containers chart-container">
-            <div>
-              <form>
+          
+          {/* LINE CHART CONTAINER */}
+          <div className="about-containers chart-container" style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+            
+            {/* Radio Buttons */}
+            <div style={{ marginBottom: '1rem', width: '100%' }}>
+              <form style={{ display: 'flex', justifyContent: 'center', gap: '10px', flexWrap: 'wrap' }}>
                 {['leetcode', 'codechef', 'codeforces', 'geeksforgeeks'].map(p => (
                    <label key={p}>
                     <input 
@@ -223,8 +249,8 @@ export default function Stats() {
                       checked={platform === p} 
                       onChange={(e) => setPlatform(e.target.value)} 
                     />
-                    <span style={{textTransform: 'capitalize'}}>
-                        {p === 'geeksforgeeks' ? 'GeeksforGeeks' : 
+                    <span style={{textTransform: 'capitalize', fontSize: '0.9rem'}}>
+                        {p === 'geeksforgeeks' ? 'GFG' : 
                          p === 'leetcode' ? 'LeetCode' : 
                          p === 'codechef' ? 'CodeChef' : 'Codeforces'}
                     </span>
@@ -232,13 +258,19 @@ export default function Stats() {
                 ))}
               </form>
             </div>
-            <canvas ref={lineChartRef}></canvas>
+
+            {/* LINE CHART WRAPPER */}
+            <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                <canvas ref={lineChartRef} style={{ width: '100%', height: '100%' }}></canvas>
+            </div>
+
           </div>
 
           <div className="text-container">
             <p>
               I’m a developer with hands-on experience in <span className="highlight">Java</span>, <span className="highlight">C/C++</span>, <span className="highlight">Python</span>, <span className="highlight">JavaScript</span>, and <span className="highlight">SQL</span>. I build robust, scalable solutions using <span className="highlight">Spring Boot</span>, <span className="highlight">RESTful APIs</span>, and modern frontend tools like <span className="highlight">Tailwind CSS</span> and <span className="highlight">Sass</span>. Skilled in cloud platforms like <span className="highlight">AWS</span> and <span className="highlight">GCP</span>, I also bring expertise in <span className="highlight">Docker</span>, <span className="highlight">Terraform</span>, and working across <span className="highlight">Linux</span> and <span className="highlight">Windows</span> environments. I'm passionate about <span className="highlight">clean code</span>, <span className="highlight">system design</span>, and solving <span className="highlight">real-world problems</span>.
-              <span id="platform-summary" style={{ marginLeft: "5px" }} dangerouslySetInnerHTML={{ __html: summary }}></span>
+              <br/>
+              <span id="platform-summary" dangerouslySetInnerHTML={{ __html: summary }}></span>
             </p>
           </div>
         </div>
