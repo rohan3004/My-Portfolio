@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Rohan Chakravarty - Portfolio",
   description: "I am Software Developer Engineer, Cloud Architect, DevOps Engineer",
+  icons: {
+    icon: '/favicon.ico',
+  },
   openGraph: {
     title: "Rohan Chakravarty's Portfolio",
     description: "I am Software Developer Engineer, Cloud Architect, DevOps Engineer",

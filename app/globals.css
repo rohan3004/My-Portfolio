@@ -9,3 +9,172 @@ label span, label span:before {display: flex;transition: .25s }canvas {width: 10
 .instagram-photo{width:100%;border:1px solid rgba(255,255,255,.25);border-radius:20px;background:rgba(255,255,255,0);box-shadow:0 8px 32px 0 rgba(31,38,135,.25)}.instagram-header{padding-block:12px;border-bottom:1px solid rgba(255,255,255,.25)}.instagram-header figure{padding-bottom:0;padding-inline:16px;margin:0;display:flex;align-items:center}.instagram-header figure img{border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.25);margin-inline-end:8px}.insta-media{display:flex}.insta-media img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;max-width:300px}.insta-buttons{padding-block:12px;padding-inline:16px;display:flex;justify-content:space-between;align-items:center}.insta-buttons .left{display:flex;align-items:center}.insta-buttons .left svg:nth-of-type(2){margin-inline:12px}.instagram__icon{cursor:pointer;width:1em;height:1em;font-size:clamp(1.09rem, 1.42vw + .74rem, 1.88rem);min-width:24px;min-height:24px}.instagram__icon:hover{opacity:.7}.instagram__icon path{stroke:#FFF7F7;stroke-linejoin:round}.instagram__icon--comment path,.instagram__icon--message path,.instagram__icon--saved path{stroke-width:2}.instagram__icon--message{margin-block-start:3px}#sp{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}.sp-captions{padding:0 16px 12px;font-size:.7rem}@media only screen and (max-width:600px){.instagram-photo{width:100vw;border-radius:0;box-shadow:none;border:none}.title{font-size:1rem;text-align:center}.section__text__p1{display:none}.insta-media img{max-width:100vw}.sp{gap:0}}@media only screen and (min-width:601px) and (max-width:1024px){.instagram-photo{width:300px}.insta-media img{max-width:300px}}@media only screen and (min-width:1025px){.instagram-photo{max-width:420px}}
 .modal {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0, 0, 0, .6);display: flex;justify-content: center;align-items: center;z-index: 1001;overflow: hidden;opacity: 0;animation: .5s ease-in-out forwards fadeIn;transition: opacity .5s ease-out }@keyframes fadeIn {0% {opacity: 0 }100% {opacity: 1 }}@keyframes scaleUp {0% {transform: scale(.8) }100% {transform: scale(1) }}.modal-content {background: #171717;padding: 20px;border-radius: 1rem;text-align: center;box-shadow: 0 4px 12px rgba(0, 0, 0, .15);max-width: 90%;width: 400px;opacity: 0;animation: .8s ease-out forwards scaleUp, .6s ease-out forwards fadeInContent;transition: opacity .5s ease-out, transform .5s ease-out;color: #fff }@keyframes fadeInContent {0% {opacity: 0 }100% {opacity: 1 }}.modal-content h2 {font-size: 1.5rem;animation: .8s ease-out forwards fadeInText }@keyframes fadeInText {0% {opacity: 0 }100% {opacity: 1 }}.modal-content button {color: #fff;padding: 12px 24px;margin: 5px;border: none;border-radius: 6px;cursor: pointer;font-size: 1.1rem;transition: background-color .3s, transform .2s, box-shadow .3s }.modal-content button:hover {transform: scale(1.1);opacity: .9;box-shadow: 0 0 15px rgba(0, 0, 0, .2) }#backgroundMusic, .hidden {display: none }.modal-content.fade-out {opacity: 0;animation: .5s ease-in-out forwards fadeOut }@keyframes fadeOut {0% {opacity: 1;transform: scale(1) }100% {opacity: 0;transform: scale(.8) }}@media (max-width:768px) {.modal-content {width: 80%;padding: 18px }.modal-content h2 {font-size: 1.25rem }.modal-content button {padding: 10px 20px;font-size: 1rem }}@media (max-width:480px) {.modal-content {width: 90%;padding: 12px }.modal-content h2 {font-size: 1rem }.modal-content button {padding: 8px 16px;font-size: .9rem }}.modal-content img{display: block;max-width: 100%;height: auto;margin: 0 auto 20px;}
 :root {--c-grey-100: #f4f6f8;--c-grey-200: #b16f59;--c-grey-300: #b2b2b2;--c-grey-400: #F72585;--c-grey-500: white;--c-blue-500: rgb(169, 176, 249);}.my-exp-component-void{display: flex;margin: auto;justify-content: center;align-items: center;padding: 1rem;}.exp_timeline button, .exp_timeline input, .exp_timeline select, .exp_timeline textarea {font: inherit;}.exp_timeline a {color: inherit;}.exp_timeline img {display: block;max-width: 100%;}.exp_timeline {width: 85%;max-width: 700px;margin-left: auto;margin-right: auto;display: flex;flex-direction: column;padding: 32px 0 32px 32px;border-left: 2px solid var(--c-grey-200);font-size: 1.125rem;}.exp_timeline-item {display: flex;gap: 24px;}.exp_timeline-item + * {margin-top: 24px;}.exp_timeline-item + .exp_extra-space {margin-top: 48px;}.exp_new-comment {width: 100%;}.exp_new-comment input {border: 1px solid var(--c-grey-200);border-radius: 6px;height: 48px;padding: 0 16px;width: 100%;}.exp_new-comment input::placeholder {color: var(--c-grey-300);}.exp_new-comment input:focus {border-color: var(--c-grey-300);outline: 0;box-shadow: 0 0 0 4px var(--c-grey-100);}.exp_timeline-item-icon {display: flex;align-items: center;justify-content: center;width: 40px;height: 40px;border-radius: 50%;margin-left: -52px;flex-shrink: 0;overflow: hidden;box-shadow: 0 0 0 6px #fff;}.exp_timeline-item-icon svg {width: 20px;height: 20px;}.exp_timeline-item-icon.exp_faded-icon {background-color: var(--c-grey-100);color: var(--c-grey-400);}.exp_timeline-item-icon.exp_filled-icon {background-color: var(--c-grey-400);color: #fff;}.exp_timeline-item-description {display: flex;padding-top: 6px;gap: 8px;color: var(--c-grey-400);}.exp_timeline-item-description img {flex-shrink: 0;}.exp_timeline-item-description a {color: var(--c-grey-500);font-weight: 500;text-decoration: none;}.exp_timeline-item-description a:hover, .exp_timeline-item-description a:focus {outline: 0;color: var(--c-blue-500);}.exp_avatar {display: flex;align-items: center;justify-content: center;border-radius: 50%;overflow: hidden;aspect-ratio: 1;flex-shrink: 0;width: 40px;height: 40px;}.exp_avatar.exp_small {width: 28px;height: 28px;}.exp_avatar img {object-fit: cover;}.exp_comment {margin-top: 12px;color: var(--c-grey-500);border: 1px solid var(--c-grey-200);border-radius: 6px;padding: 16px;font-size: 1rem;}.exp_button {border: 0;padding: 0;display: inline-flex;vertical-align: middle;margin-right: 4px;margin-top: 12px;align-items: center;justify-content: center;font-size: 1rem;height: 32px;padding: 0 8px;background-color: var(--c-grey-100);flex-shrink: 0;cursor: pointer;border-radius: 99em;}.exp_button:hover {background-color: var(--c-grey-200);}.exp_button.exp_square {border-radius: 50%;color: var(--c-grey-400);width: 32px;height: 32px;padding: 0;}.exp_button.exp_square svg {width: 24px;height: 24px;}.exp_button.exp_square:hover {background-color: var(--c-grey-200);color: var(--c-grey-500);}.exp_show-replies {color: var(--c-grey-300);background-color: transparent;border: 0;padding: 0;margin-top: 16px;display: flex;align-items: center;gap: 6px;font-size: 1rem;cursor: pointer;}.exp_show-replies svg {flex-shrink: 0;width: 24px;height: 24px;}.exp_show-replies:hover, .exp_show-replies:focus {color: var(--c-grey-500);}.exp_avatar-list {display: flex;align-items: center;}.exp_avatar-list > * {position: relative;box-shadow: 0 0 0 2px #fff;margin-right: -8px;}
+/* =========================================
+   THEMED MUSIC WIDGET (ROSE COPPER #b16f59)
+   ========================================= */
+:root {
+  /* THEME COLORS EXTRACTED FROM YOUR CSS */
+  --lg-accent: #b16f59;       /* Rose Copper */
+  --lg-bg-tint: rgba(11, 5, 10, 0.85); /* #0b050a with opacity */
+  --lg-text: #f2e4ef;         /* Off-white pink */
+  --lg-border: rgba(177, 111, 89, 0.4);
+}
+
+/* 1. Wrapper: Position & Scaling (0.55 = -45%) */
+.music-widget-wrapper {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1100;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  
+  /* Scale to 55% size */
+  transform: scale(0.55); 
+  transform-origin: bottom right; 
+
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              opacity 0.4s ease, 
+              bottom 0.4s ease;
+}
+
+/* Hide on Scroll (Bottom of Page) */
+.music-widget-wrapper.music-hidden {
+  transform: scale(0.55) translateY(200px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .music-widget-wrapper {
+    bottom: 90px;
+    right: 1.5rem;
+  }
+  .music-widget-wrapper.music-hidden {
+    transform: scale(0.55) translateY(150px);
+    bottom: 0;
+  }
+}
+
+/* 2. Glass Container */
+.glass-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--lg-text);
+  cursor: pointer;
+  background: var(--lg-bg-tint); /* Matches site background */
+  overflow: hidden;
+  
+  /* Themed Border & Shadow */
+  border: 1px solid var(--lg-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+              0 0 15px rgba(177, 111, 89, 0.2); /* Accent Glow */
+  
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-radius 0.5s ease,
+              box-shadow 0.3s ease;
+}
+
+/* 3. COLLAPSED */
+.glass-container.collapsed {
+  width: 90px; /* Base size */
+  height: 90px;
+  border-radius: 50%;
+}
+
+.glass-container.collapsed:hover {
+  transform: scale(1.1);
+  border-color: var(--lg-accent);
+  box-shadow: 0 0 30px rgba(177, 111, 89, 0.5); /* Stronger accent glow */
+}
+
+/* 4. EXPANDED */
+.glass-container.expanded {
+  width: 400px;
+  height: 120px;
+  border-radius: 2rem;
+  transform: none;
+  background: rgba(11, 5, 10, 0.95); /* Nearly opaque on expand for readability */
+  border-color: var(--lg-accent);
+}
+
+/* 5. Layers (Subtler for dark theme) */
+.glass-filter {
+  position: absolute; inset: 0; z-index: 0;
+  backdrop-filter: blur(12px);
+  filter: url(#lg-dist);
+  isolation: isolate;
+  opacity: 0.5;
+}
+.glass-specular {
+  position: absolute; inset: 0; z-index: 2;
+  border-radius: inherit; overflow: hidden;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.1), 
+              inset 0 0 20px rgba(177, 111, 89, 0.1);
+}
+
+/* 6. Content Logic */
+.glass-content {
+  position: relative; z-index: 3;
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.collapsed .player-ui { display: none; opacity: 0; }
+.expanded .widget-icon { display: none; opacity: 0; }
+
+.collapsed .widget-icon {
+  display: flex; opacity: 1;
+  animation: fadeIn 0.3s forwards;
+}
+
+.expanded .player-ui {
+  display: flex; width: 100%; padding: 0 2.5rem;
+  justify-content: space-between; align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.4s 0.1s forwards;
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* 7. Player UI Typography */
+.player-ui .player__legend { display: flex; flex-direction: column; }
+.player__legend__title { 
+  font-size: 1.6rem; margin: 0; 
+  color: var(--lg-accent); /* Theme Accent Title */
+  text-shadow: 0 0 10px rgba(177, 111, 89, 0.3); 
+  white-space: nowrap; 
+}
+.player__legend__sub-title { 
+  font-size: 1rem; margin: 0; opacity: 0.8; 
+  color: var(--lg-text); 
+}
+
+/* 8. Controls & Icons */
+.player__controls { display: flex; gap: 20px; align-items: center; }
+.player__btn { cursor: pointer; transition: transform 0.2s; display: flex; }
+.player__btn:hover { transform: scale(1.2); }
+.player__btn svg { 
+  fill: var(--lg-text); 
+  width: 28px; height: 28px; 
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.8)); 
+}
+.player__btn:hover svg { fill: var(--lg-accent); }
+
+/* 9. Futuristic Icon (Themed) */
+.widget-icon svg { 
+  fill: var(--lg-text); 
+  width: 36px; height: 36px; 
+}
+.playing-pulse { animation: pulse 2s infinite; }
+
+@keyframes pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0px var(--lg-accent)); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--lg-accent)); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--lg-accent)); }
+}
