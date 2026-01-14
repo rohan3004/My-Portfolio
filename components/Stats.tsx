@@ -25,8 +25,7 @@ export default function Stats() {
 
   // Fetch Data
   useEffect(() => {
-    // Using the production URL to ensure it works, change to localhost if debugging locally
-    fetch('http://localhost:8443/v1/reports/rohan.chakravarty02@gmail.com')
+    fetch('https://apis.byrohan.in/v1/reports/rohan.chakravarty02@gmail.com')
       .then(res => res.json())
       .then(data => setApiData(data))
       .catch(err => console.error("Stats fetch error:", err));
@@ -180,7 +179,12 @@ export default function Stats() {
             plugins: { legend: { display: false } },
             scales: {
                 x: { display: false },
-                y: { border: { display: false }, grid: { color: COLORS.grid, borderDash: [5, 5] }, ticks: { color: COLORS.textDim } }
+                y: { 
+                  border: { display: false }, 
+                  // FIX IS HERE: Cast to 'any' to bypass strict TS check for borderDash
+                  grid: { color: COLORS.grid, borderDash: [5, 5] } as any, 
+                  ticks: { color: COLORS.textDim } 
+                }
             }
         }
       });
@@ -193,7 +197,6 @@ export default function Stats() {
       <p className="section__text__p1">Get To Know My Statistics</p>
       <h1 className="title">Fundamentals</h1>
       <div className="section-container">
-        {/* Pie Chart Container - Inline style copied exactly from HTML to ensure centering */}
         <div 
           className="section__pic-container" 
           style={{ 
@@ -208,7 +211,6 @@ export default function Stats() {
         </div>
 
         <div className="about-details-container">
-          {/* Line Chart & Controls */}
           <div className="about-containers chart-container">
             <div>
               <form>
@@ -233,7 +235,6 @@ export default function Stats() {
             <canvas ref={lineChartRef}></canvas>
           </div>
 
-          {/* Text Container with FULL details from HTML */}
           <div className="text-container">
             <p>
               I’m a developer with hands-on experience in <span className="highlight">Java</span>, <span className="highlight">C/C++</span>, <span className="highlight">Python</span>, <span className="highlight">JavaScript</span>, and <span className="highlight">SQL</span>. I build robust, scalable solutions using <span className="highlight">Spring Boot</span>, <span className="highlight">RESTful APIs</span>, and modern frontend tools like <span className="highlight">Tailwind CSS</span> and <span className="highlight">Sass</span>. Skilled in cloud platforms like <span className="highlight">AWS</span> and <span className="highlight">GCP</span>, I also bring expertise in <span className="highlight">Docker</span>, <span className="highlight">Terraform</span>, and working across <span className="highlight">Linux</span> and <span className="highlight">Windows</span> environments. I'm passionate about <span className="highlight">clean code</span>, <span className="highlight">system design</span>, and solving <span className="highlight">real-world problems</span>.
