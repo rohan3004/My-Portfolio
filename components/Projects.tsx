@@ -17,12 +17,12 @@ export default function Projects() {
       };
 
       try {
-        const res = await fetch("http://localhost:8443/v1/github/repositories");
+        const res = await fetch("https://apis.byrohan.in/v1/github/repositories");
         const data = await res.json();
         const filtered = data.filter((repo: any) => repoMap.hasOwnProperty(repo.name));
         
         const processed = await Promise.all(filtered.map(async (repo: any) => {
-            const langRes = await fetch(`http://localhost:8443/v1/github/languages/${repo.name}`);
+            const langRes = await fetch(`https://apis.byrohan.in/v1/github/languages/${repo.name}`);
             const langs = await langRes.json();
             return {
                 ...repo,

@@ -56,7 +56,7 @@ export default function Contact() {
       // 1.5s delay for animation
       await new Promise(r => setTimeout(r, 1500)); 
 
-      const res = await fetch("http://localhost:8443/v1/contact", {
+      const res = await fetch("https://apis.byrohan.in/v1/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

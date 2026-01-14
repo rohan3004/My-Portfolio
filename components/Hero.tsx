@@ -29,7 +29,7 @@ export default function Hero() {
     // 2. Weather Logic
     const fetchWeather = async () => {
       try {
-        const ipRes = await fetch("http://localhost:8443/v1/your_ip");
+        const ipRes = await fetch("https://apis.byrohan.in/v1/your_ip");
         const ipData = await ipRes.json();
         const city = ipData?.cityNames?.en || "Kolkata";
         
@@ -44,7 +44,7 @@ export default function Hero() {
     // 3. Stats Logic (Quick Fetch)
     const fetchStats = async () => {
       try {
-        const res = await fetch('http://localhost:8443/v1/reports/rohan.chakravarty02@gmail.com');
+        const res = await fetch('https://apis.byrohan.in/v1/reports/rohan.chakravarty02@gmail.com');
         const data = await res.json();
         const totalQ = (data.codechef?.problems_solved_total || 0) + (data.codeforces?.problems_solved_total || 0) + (data.geeksforgeeks?.problems_solved_total || 0) + (data.leetcode?.problems_solved_total || 0);
         setStats({

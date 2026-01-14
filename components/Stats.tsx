@@ -27,7 +27,7 @@ export default function Stats() {
 
   // 1. Fetch Data
   useEffect(() => {
-    fetch('http://localhost:8443/v1/reports/rohan.chakravarty02@gmail.com')
+    fetch('https://apis.byrohan.in/v1/reports/rohan.chakravarty02@gmail.com')
       .then(res => res.json())
       .then(data => setApiData(data))
       .catch(err => {
