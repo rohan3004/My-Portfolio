@@ -812,3 +812,202 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
     }
   }
 }
+
+/* =========================================
+   DESKTOP LOGO STYLES
+   ========================================= */
+
+/* Default: Hidden on mobile/tablet */
+.desktop-logo {
+  display: none; 
+}
+
+/* Laptop & Desktop Screens (1024px and up) */
+@media screen and (min-width: 1024px) {
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between round logo and text */
+  }
+
+  .desktop-logo {
+    display: block; /* Visible only on laptop */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Make it round */
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .desktop-logo:hover {
+    transform: scale(1.1) rotate(5deg); /* Cool micro-interaction */
+    border-color: #b16f59; /* Copper accent on hover */
+  }
+}
+
+/* =========================================
+   SCI-FI HUD UI (Rounded & Mobile Safe)
+   ========================================= */
+
+:root {
+  --sci-glass: rgba(15, 15, 20, 0.7);
+  --sci-border: rgba(177, 111, 89, 0.3);
+  --sci-accent: #b16f59;
+  --sci-grid: rgba(177, 111, 89, 0.05);
+  --sci-text-main: #e0e0e0;
+  --sci-text-dim: #7a7a7a;
+}
+
+/* Grid Layout */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 5%;
+}
+
+/* 1. ROUNDED CARD BASE */
+.sci-card {
+  background: var(--sci-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  
+  /* ROUNDED CORNERS (No more sharp angles) */
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+  
+  padding: 24px;
+  position: relative;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+/* Grid Background */
+.sci-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: 
+    linear-gradient(var(--sci-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--sci-grid) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* Headers */
+.hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 10px;
+}
+
+.hud-title {
+  font-size: 0.85rem;
+  color: var(--sci-accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* 2. SCROLLABLE TABS (Mobile Fix) */
+.cyber-tabs {
+  display: flex;
+  gap: 6px;
+  background: rgba(0,0,0,0.2);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+  
+  /* Enables Horizontal Scroll on Mobile */
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 100%;
+  
+  /* Hide Scrollbar */
+  scrollbar-width: none; /* Firefox */
+}
+.cyber-tabs::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+
+.cyber-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--sci-text-dim);
+  font-size: 0.75rem;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  flex-shrink: 0; /* Prevents button squishing */
+}
+
+.cyber-tab-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+
+.cyber-tab-btn.active {
+  background: rgba(177, 111, 89, 0.15);
+  color: var(--sci-accent);
+  font-weight: 700;
+  border: 1px solid rgba(177, 111, 89, 0.3);
+}
+
+/* Terminal Box */
+.terminal-box {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px; /* Rounded */
+  padding: 16px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--sci-text-main);
+  min-height: 110px;
+}
+
+.sys-highlight {
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(177, 111, 89, 0.4);
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px; height: 16px;
+  background: var(--sci-accent);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+  .bento-grid {
+    grid-template-columns: 1fr; /* Stack vertically */
+    margin: 2rem auto;
+    padding: 0 5%;
+  }
+  
+  .hud-header {
+    flex-direction: column; /* Stack Title and Tabs */
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .cyber-tabs {
+    width: 100%; /* Fill width */
+  }
+  
+  /* Make Pie Chart Smaller on Mobile */
+  .sci-card[style*="minHeight: 350px"] {
+      min-height: 300px !important;
+  }
+}

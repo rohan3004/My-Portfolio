@@ -20,6 +20,16 @@ export default function Navbar() {
 
   return (
     <div className={`menu ${hidden ? "hidden" : ""}`}>
+      <div className="logo-wrapper" onClick={() => window.location.href = '/'}>
+    
+    {/* THE NEW LOGO IMAGE */}
+    <img 
+      src="/assets/logo.webp" 
+      alt="Logo" 
+      className="desktop-logo" 
+    />
+  
+  </div>
       {/* Blog Link */}
       <a href="https://blog.rohandev.online" className="link">
         <span className="link-icon">
