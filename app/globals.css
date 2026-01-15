@@ -502,14 +502,13 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   border-radius: 32px;
   padding: 24px;
   
-  /* MINIMAL GLASS: Darker, more transparent, less noise */
-  background: rgba(0, 0, 0, 0.7); 
-  backdrop-filter: blur(30px); 
-  -webkit-backdrop-filter: blur(30px);
+  /* MINIMAL GLASS */
+  background: rgba(0, 0, 0, 0.4); 
+  backdrop-filter: blur(20px); 
+  -webkit-backdrop-filter: blur(20px);
   
-  /* Ultra-thin border for that crisp edge */
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Softer shadow */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     
   transition: transform 0.4s ease, border-color 0.4s ease;
   overflow: hidden;
@@ -527,12 +526,12 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   align-items: center;
   gap: 16px;
   margin-bottom: 24px;
+  position: relative; /* For positioning the dot if needed */
 }
 
 .ac-avatar {
   width: 64px; height: 64px;
   border-radius: 50%;
-  /* Removing the heavy border for a cleaner look */
   border: 1px solid rgba(255, 255, 255, 0.2); 
   object-fit: cover;
 }
@@ -549,26 +548,54 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   display: flex;
   gap: 8px;
   margin-top: 6px;
+  align-items: center;
 }
 
-/* Minimal Pills */
+/* LIVE SYNC DOT (The Ripple) */
+.live-indicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px; height: 12px;
+}
+
+.live-dot {
+  width: 8px; height: 8px;
+  background-color: #30D158; /* Apple Green */
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(48, 209, 88, 0.6);
+}
+
+.live-ripple {
+  position: absolute;
+  width: 100%; height: 100%;
+  background-color: rgba(48, 209, 88, 0.6);
+  border-radius: 50%;
+  animation: ripple-effect 2s infinite cubic-bezier(0, 0.2, 0.8, 1);
+}
+
+@keyframes ripple-effect {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Pills */
 .ac-pill {
   font-size: 0.7rem;
   font-weight: 500;
   padding: 4px 10px;
-  border-radius: 6px; /* Slightly squarer, like code blocks */
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: flex; align-items: center; gap: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
-
 .ac-pill.fire { color: #FF9F0A; background: rgba(255, 159, 10, 0.1); }
 .ac-pill.rank { color: #30D158; background: rgba(48, 209, 88, 0.1); }
 
-/* Grid Layout */
+/* Grid */
 .ac-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -576,19 +603,15 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   margin-bottom: 20px;
 }
 
-/* Widgets - Now barely visible blocks */
 .ac-widget {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 20px;
   padding: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: flex; flex-direction: column; justify-content: space-between;
   min-height: 100px;
-  border: 1px solid transparent; /* Hidden unless hovered */
+  border: 1px solid transparent;
   transition: background 0.3s ease;
 }
-
 .ac-widget:hover {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.05);
@@ -609,9 +632,7 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   font-weight: 500;
   color: rgba(255, 255, 255, 0.95);
   letter-spacing: -0.02em;
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
+  display: flex; align-items: baseline; gap: 4px;
 }
 
 .ac-sub {
@@ -623,26 +644,21 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   text-overflow: ellipsis;
 }
 
-/* Footer - Cleaned up */
+/* Footer */
 .ac-footer {
   padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex;
-  gap: 24px; /* Simple spacing instead of flex-between */
+  display: flex; gap: 24px;
   font-size: 0.85rem;
 }
-
 .ac-stat {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items: center; gap: 8px;
   color: rgba(255, 255, 255, 0.6);
 }
 .ac-stat span { color: #fff; font-weight: 600; }
-
 .text-gold { color: #FFD60A !important; }
 
-/* Skeleton - Subtler */
+/* Skeleton */
 .sk-anim {
   background: rgba(255,255,255,0.05);
   border-radius: 4px;
@@ -650,10 +666,17 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
 }
 @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-/* Mobile */
+/* === MOBILE FIXES === */
 @media (max-width: 600px) {
+  /* 1. Spacing Fix: Move card down so it doesn't touch top */
+  .apple-card { 
+    width: 95vw;          /* 95% of viewport width */
+    margin-top: 20px;     /* Push down from top */
+    margin-bottom: 20px;  /* Space at bottom */
+    padding: 20px; 
+  }
+
   .ac-grid { grid-template-columns: 1fr; }
-  .apple-card { width: 95%; padding: 20px; }
   .ac-header { flex-direction: column; text-align: center; }
   .ac-badges { justify-content: center; }
   .ac-footer { justify-content: center; }

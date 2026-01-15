@@ -128,7 +128,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Footer (No Live Sync) */}
+            {/* Footer */}
             <div className="ac-footer">
               <div className="ac-stat">
                 {stats.loaded ? <span>{stats.q}</span> : <div className="sk-anim sk-text" style={{width: '30px'}}></div>}
@@ -137,6 +137,13 @@ export default function Hero() {
               <div className="ac-stat">
                 {stats.loaded ? <span className="text-gold">{stats.stars}★</span> : <div className="sk-anim sk-text" style={{width: '30px'}}></div>}
                 CodeChef
+                
+                {/* LIVE SYNC DOT (Moved Here) */}
+                <div className="live-indicator" style={{marginLeft: '4px'}}>
+                  <div className="live-dot"></div>
+                  <div className="live-ripple"></div>
+                </div>
+
               </div>
             </div>
 
