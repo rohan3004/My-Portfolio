@@ -503,9 +503,9 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   padding: 24px;
   
   /* MINIMAL GLASS: Darker, more transparent, less noise */
-  background: rgba(0, 0, 0, 0.55); 
-  backdrop-filter: blur(20px); 
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.7); 
+  backdrop-filter: blur(30px); 
+  -webkit-backdrop-filter: blur(30px);
   
   /* Ultra-thin border for that crisp edge */
   border: 1px solid rgba(255, 255, 255, 0.08);
