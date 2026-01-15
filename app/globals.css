@@ -794,3 +794,21 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   .title { font-size: 1.8rem; }
   .btn-container { flex-wrap: wrap; }
 }}
+
+/* =========================================
+   SAFARI OVERLAP FIX (Contact & Sections)
+   ========================================= */
+
+/* Mobile Safari Specific Tweak */
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+    /* Only targets Safari */
+    section {
+      min-height: -webkit-fill-available;
+    }
+    #contact {
+      /* Add extra padding bottom on Safari to account for the address bar scroll */
+      padding-bottom: 120px; 
+    }
+  }
+}
