@@ -2,46 +2,52 @@
 import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 
+interface StatsData {
+  q: number;
+  badges: number;
+  sub: number;
+  streak: number;
+  stars: number;
+  loaded: boolean; 
+}
+
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [weather, setWeather] = useState<any>(null);
-  const [stats, setStats] = useState({ q: 0, badges: 0, sub: 0, streak: 0, stars: 2 });
+  const [stats, setStats] = useState<StatsData>({ 
+    q: 0, badges: 0, sub: 0, streak: 0, stars: 2, loaded: false 
+  });
 
   useEffect(() => {
-    // 1. HLS Video Logic
+    // 1. Video Logic
     const src = "https://stream.byrohan.in/hls/vid_bg1/master.m3u8";
     if (videoRef.current) {
       if (Hls.isSupported()) {
         const hls = new Hls();
         hls.loadSource(src);
         hls.attachMedia(videoRef.current);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          videoRef.current?.play().catch(() => {});
-        });
+        hls.on(Hls.Events.MANIFEST_PARSED, () => videoRef.current?.play().catch(() => {}));
       } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
         videoRef.current.src = src;
-        videoRef.current.addEventListener("loadedmetadata", () => {
-          videoRef.current?.play().catch(() => {});
-        });
+        videoRef.current.addEventListener("loadedmetadata", () => videoRef.current?.play().catch(() => {}));
       }
     }
 
-    // 2. Weather Logic
+    // 2. Weather
     const fetchWeather = async () => {
       try {
         const ipRes = await fetch("https://apis.byrohan.in/v1/your_ip");
         const ipData = await ipRes.json();
-        const city = ipData?.cityNames?.en || "Kolkata";
-        
+        const city = ipData?.cityNames?.en || "Bengaluru";
         const wRes = await fetch(`https://api.weatherapi.com/v1/current.json?key=fc9c2d13772441e9b72191328240604&q=${city}`);
         const wData = await wRes.json();
         setWeather({ city, ...wData });
       } catch (e) {
-        console.error("Weather error", e);
+        setWeather({ city: "Unknown", current: { temp_c: "--", condition: { text: "Offline", icon: "" } } });
       }
     };
 
-    // 3. Stats Logic (Quick Fetch)
+    // 3. Stats
     const fetchStats = async () => {
       try {
         const res = await fetch('https://apis.byrohan.in/v1/reports/rohan.chakravarty02@gmail.com');
@@ -52,10 +58,11 @@ export default function Hero() {
           badges: data.leetcode?.platform_specific?.badges || 0,
           sub: data.leetcode?.platform_specific?.top_percentage || 0,
           streak: data.leetcode?.streak_max || 0,
-          stars: data.codechef?.platform_specific?.contest_rank_stars || 2
+          stars: data.codechef?.platform_specific?.contest_rank_stars || 2,
+          loaded: true
         });
       } catch (e) {
-        console.error(e);
+        setStats(prev => ({ ...prev, loaded: true }));
       }
     };
 
@@ -68,43 +75,75 @@ export default function Hero() {
       <div className="video-background">
         <video ref={videoRef} id="player" autoPlay muted loop playsInline></video>
       </div>
+
       <section id="profile">
         <div id="boxes">
-          <div id="player02" className="player horizontal">
-            <div className="wrapper">
-              <div className="info-wrapper">
-                <img src="/assets/Rohan Chakravarty.webp" alt="Rohan Chakravarty" />
-                <div className="info">
-                  <h1>Hello, World!</h1>
-                  <p style={{ color: "white" }}>Top <span id="submissions">{stats.sub}%</span>😤 |🔥<span id="max-streak">{stats.streak}</span></p>
-                </div>
-              </div>
-              <div id="weatherRohan">
-                {weather ? (
-                  <div className="weather-info">
-                    <div className="details">
-                      <p className="temperature">{weather.current?.temp_c}°C in {weather.city}</p>
-                      <p className="condition">{weather.current?.condition?.text} {weather.current?.pressure_mb} hPa</p>
-                    </div>
-                    <img id="icon" src={weather.current?.condition?.icon.startsWith("//") ? `https:${weather.current.condition.icon}` : weather.current?.condition?.icon} alt="Weather Icon" />
-                    <div className="details">
-                      <p><i className="fas fa-tint"></i><span id="humidity">{weather.current?.humidity}</span>%</p>
-                      <p><i className="fa-solid fa-wind"></i><span id="wind">{weather.current?.wind_dir} {weather.current?.wind_kph}</span> km/h</p>
-                    </div>
-                  </div>
-                ) : (
-                  <p>Loading Weather...</p>
-                )}
-              </div>
-              <div className="track-time">
-                <div className="track"></div>
-                <div className="time">
-                  <p><span>{stats.q}</span> Qs | <span>{stats.badges}</span> Badges | <span>{stats.stars}</span>⭐@Codechef</p>
+          <div className="apple-card">
+            
+            {/* Header */}
+            <div className="ac-header">
+              <img src="/assets/Rohan Chakravarty.webp" alt="Rohan" className="ac-avatar" />
+              <div className="ac-profile">
+                <h2>Hello, World!</h2>
+                <div className="ac-badges">
+                  {stats.loaded ? (
+                    <>
+                      <div className="ac-pill rank"><i className="fa-solid fa-chart-line"></i> Top {stats.sub}%</div>
+                      <div className="ac-pill fire"><i className="fa-solid fa-fire"></i> {stats.streak} Days</div>
+                    </>
+                  ) : <div className="sk-anim sk-text" style={{width: '120px', height: '24px'}}></div>}
                 </div>
               </div>
             </div>
+
+            {/* Grid */}
+            <div className="ac-grid">
+              {/* Weather */}
+              <div className="ac-widget">
+                <div className="ac-label"><i className="fa-solid fa-location-arrow"></i> Location</div>
+                <div className="ac-value">
+                  {weather ? (
+                    <>
+                      {weather.current?.temp_c}°
+                      {weather.current?.condition?.icon && (
+                         <img src={weather.current.condition.icon.startsWith("//") ? `https:${weather.current.condition.icon}` : weather.current.condition.icon} alt="icon" style={{width: '28px', height: '28px', marginLeft: 'auto', opacity: 0.8}} />
+                       )}
+                    </>
+                  ) : <div className="sk-anim sk-block"></div>}
+                </div>
+                <div className="ac-sub">
+                  {weather ? `${weather.city}, ${weather.current?.condition?.text}` : <div className="sk-anim sk-text"></div>}
+                </div>
+              </div>
+
+              {/* Badges */}
+              <div className="ac-widget">
+                <div className="ac-label"><i className="fa-solid fa-medal"></i> Badges</div>
+                <div className="ac-value">
+                   {stats.loaded ? stats.badges : <div className="sk-anim sk-block"></div>}
+                </div>
+                <div className="ac-sub">
+                   {stats.loaded ? "LeetCode Mastery" : <div className="sk-anim sk-text"></div>}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer (No Live Sync) */}
+            <div className="ac-footer">
+              <div className="ac-stat">
+                {stats.loaded ? <span>{stats.q}</span> : <div className="sk-anim sk-text" style={{width: '30px'}}></div>}
+                Problems Solved
+              </div>
+              <div className="ac-stat">
+                {stats.loaded ? <span className="text-gold">{stats.stars}★</span> : <div className="sk-anim sk-text" style={{width: '30px'}}></div>}
+                CodeChef
+              </div>
+            </div>
+
           </div>
         </div>
+
+        {/* Text Section (Unchanged) */}
         <div className="section__text">
           <p className="section__text__p1" style={{ color: "#F5F5F5" }}>Hello, I'm</p>
           <h1 className="title">Rohan Chakravarty</h1>
