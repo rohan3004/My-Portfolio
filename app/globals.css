@@ -503,7 +503,7 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   padding: 24px;
   
   /* MINIMAL GLASS: Darker, more transparent, less noise */
-  background: rgba(0, 0, 0, 0.4); 
+  background: rgba(0, 0, 0, 0.55); 
   backdrop-filter: blur(20px); 
   -webkit-backdrop-filter: blur(20px);
   
