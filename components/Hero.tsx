@@ -91,7 +91,7 @@ export default function Hero() {
                       <div className="ac-pill rank"><i className="fa-solid fa-chart-line"></i> Top {stats.sub}%</div>
                       <div className="ac-pill fire"><i className="fa-solid fa-fire"></i> {stats.streak} Days</div>
                     </>
-                  ) : <div className="sk-anim sk-text" style={{width: '120px', height: '24px'}}></div>}
+                  ) : <div className="sk-anim sk-text" style={{width: '120px', height: '20px'}}></div>}
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@ export default function Hero() {
                     <>
                       {weather.current?.temp_c}°
                       {weather.current?.condition?.icon && (
-                         <img src={weather.current.condition.icon.startsWith("//") ? `https:${weather.current.condition.icon}` : weather.current.condition.icon} alt="icon" style={{width: '28px', height: '28px', marginLeft: 'auto', opacity: 0.8}} />
+                         <img src={weather.current.condition.icon.startsWith("//") ? `https:${weather.current.condition.icon}` : weather.current.condition.icon} alt="icon" style={{width: '24px', height: '24px', marginLeft: 'auto', opacity: 0.8}} />
                        )}
                     </>
                   ) : <div className="sk-anim sk-block"></div>}
@@ -130,20 +130,21 @@ export default function Hero() {
 
             {/* Footer */}
             <div className="ac-footer">
-              <div className="ac-stat">
-                {stats.loaded ? <span>{stats.q}</span> : <div className="sk-anim sk-text" style={{width: '30px'}}></div>}
-                Problems Solved
-              </div>
-              <div className="ac-stat">
-                {stats.loaded ? <span className="text-gold">{stats.stars}★</span> : <div className="sk-anim sk-text" style={{width: '30px'}}></div>}
-                CodeChef
-                
-                {/* LIVE SYNC DOT (Moved Here) */}
-                <div className="live-indicator" style={{marginLeft: '4px'}}>
-                  <div className="live-dot"></div>
-                  <div className="live-ripple"></div>
+              <div className="ac-stats-wrapper">
+                <div className="ac-stat">
+                  {stats.loaded ? <span>{stats.q}</span> : <div className="sk-anim sk-text" style={{width: '30px'}}></div>}
+                  Solved
                 </div>
-
+                <div className="ac-stat">
+                  {stats.loaded ? <span className="text-gold">{stats.stars}★</span> : <div className="sk-anim sk-text" style={{width: '30px'}}></div>}
+                  CodeChef
+                </div>
+              </div>
+              
+              {/* RIGHT ALIGNED LIVE DOT */}
+              <div className="live-indicator" title="Live Data">
+                <div className="live-dot"></div>
+                <div className="live-ripple"></div>
               </div>
             </div>
 

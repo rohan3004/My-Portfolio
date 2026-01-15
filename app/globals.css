@@ -491,21 +491,20 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   100% { transform: scale(1); }
 }
 /* =========================================
-   MINIMAL APPLE AESTHETIC (Clean Glass)
+   MINIMAL APPLE AESTHETIC (Refined Sizing)
    ========================================= */
 
 /* Main Card */
 .apple-card {
   position: relative;
   width: 100%;
-  max-width: 520px;
+  max-width: 440px; /* Reduced from 520px for desktop */
   border-radius: 32px;
   padding: 24px;
   
-  /* MINIMAL GLASS */
-  background: rgba(0, 0, 0, 0.4); 
-  backdrop-filter: blur(20px); 
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.8); 
+  backdrop-filter: blur(30px); 
+  -webkit-backdrop-filter: blur(30px);
   
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -525,19 +524,18 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 24px;
-  position: relative; /* For positioning the dot if needed */
+  margin-bottom: 20px; /* Slightly tighter */
 }
 
 .ac-avatar {
-  width: 64px; height: 64px;
+  width: 58px; height: 58px; /* Slightly smaller avatar */
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.2); 
   object-fit: cover;
 }
 
 .ac-profile h2 {
-  font-size: 1.4rem;
+  font-size: 1.3rem; /* Adjusted font size */
   font-weight: 600;
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
@@ -551,41 +549,11 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   align-items: center;
 }
 
-/* LIVE SYNC DOT (The Ripple) */
-.live-indicator {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 12px; height: 12px;
-}
-
-.live-dot {
-  width: 8px; height: 8px;
-  background-color: #30D158; /* Apple Green */
-  border-radius: 50%;
-  z-index: 2;
-  box-shadow: 0 0 10px rgba(48, 209, 88, 0.6);
-}
-
-.live-ripple {
-  position: absolute;
-  width: 100%; height: 100%;
-  background-color: rgba(48, 209, 88, 0.6);
-  border-radius: 50%;
-  animation: ripple-effect 2s infinite cubic-bezier(0, 0.2, 0.8, 1);
-}
-
-@keyframes ripple-effect {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(3); opacity: 0; }
-}
-
 /* Pills */
 .ac-pill {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 500;
-  padding: 4px 10px;
+  padding: 4px 8px;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.7);
@@ -599,16 +567,16 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
 .ac-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px; /* Tighter gap */
+  margin-bottom: 16px;
 }
 
 .ac-widget {
   background: rgba(255, 255, 255, 0.03);
-  border-radius: 20px;
-  padding: 16px;
+  border-radius: 18px;
+  padding: 14px;
   display: flex; flex-direction: column; justify-content: space-between;
-  min-height: 100px;
+  min-height: 90px; /* Reduced height */
   border: 1px solid transparent;
   transition: background 0.3s ease;
 }
@@ -618,7 +586,7 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
 }
 
 .ac-label {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: rgba(255, 255, 255, 0.4);
@@ -628,7 +596,7 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
 }
 
 .ac-value {
-  font-size: 1.6rem;
+  font-size: 1.4rem; /* Adjusted font size */
   font-weight: 500;
   color: rgba(255, 255, 255, 0.95);
   letter-spacing: -0.02em;
@@ -636,7 +604,7 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
 }
 
 .ac-sub {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.5);
   margin-top: auto;
   white-space: nowrap;
@@ -644,19 +612,52 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
   text-overflow: ellipsis;
 }
 
-/* Footer */
+/* Footer - Right Aligned Dot */
 .ac-footer {
-  padding-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex; gap: 24px;
-  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between; /* Pushes Dot to Right */
+  align-items: center;
+  font-size: 0.8rem;
 }
+
+.ac-stats-wrapper {
+    display: flex;
+    gap: 16px;
+}
+
 .ac-stat {
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 6px;
   color: rgba(255, 255, 255, 0.6);
 }
 .ac-stat span { color: #fff; font-weight: 600; }
 .text-gold { color: #FFD60A !important; }
+
+/* Live Dot Animation */
+.live-indicator {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  width: 12px; height: 12px;
+}
+.live-dot {
+  width: 6px; height: 6px;
+  background-color: #30D158;
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 8px rgba(48, 209, 88, 0.6);
+}
+.live-ripple {
+  position: absolute;
+  width: 100%; height: 100%;
+  background-color: rgba(48, 209, 88, 0.6);
+  border-radius: 50%;
+  animation: ripple-effect 2s infinite cubic-bezier(0, 0.2, 0.8, 1);
+}
+@keyframes ripple-effect {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(3); opacity: 0; }
+}
 
 /* Skeleton */
 .sk-anim {
@@ -666,20 +667,40 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
 }
 @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-/* === MOBILE FIXES === */
+/* === MOBILE FIXES (Reduced Height) === */
 @media (max-width: 600px) {
-  /* 1. Spacing Fix: Move card down so it doesn't touch top */
   .apple-card { 
-    width: 95vw;          /* 95% of viewport width */
-    margin-top: 20px;     /* Push down from top */
-    margin-bottom: 20px;  /* Space at bottom */
-    padding: 20px; 
+    width: 92vw;          /* Slightly narrower than full width */
+    max-width: 380px;     /* Cap width for large phones */
+    margin-top: 15px;     
+    margin-bottom: 15px;  
+    padding: 16px;        /* Less padding inside */
   }
 
-  .ac-grid { grid-template-columns: 1fr; }
-  .ac-header { flex-direction: column; text-align: center; }
-  .ac-badges { justify-content: center; }
-  .ac-footer { justify-content: center; }
+  .ac-header {
+    margin-bottom: 12px;  /* Tighter header spacing */
+    flex-direction: row;  /* Keep row layout on mobile if possible, looks better */
+    text-align: left;
+  }
+  
+  .ac-avatar { width: 48px; height: 48px; } /* Smaller avatar */
+  .ac-profile h2 { font-size: 1.1rem; }
+  
+  /* Stack Grid but make them short */
+  .ac-grid { 
+      grid-template-columns: 1fr 1fr; /* Keep 2 cols on mobile for compactness */
+      gap: 8px;
+  }
+  
+  .ac-widget {
+      padding: 10px;
+      min-height: 70px; /* Much shorter widgets */
+  }
+  
+  .ac-value { font-size: 1.1rem; }
+  .ac-sub { font-size: 0.65rem; }
+  
+  .ac-footer { padding-top: 12px; }
 }
 
 /* =========================================
@@ -742,3 +763,34 @@ body, button, input { font-weight: 700; letter-spacing: 1.4px; }
        but usually mobile cursors are native/hidden */
   }
 }
+/* =========================================
+   HERO SECTION LAYOUT (Centering Logic)
+   ========================================= */
+
+/* 1. Parent Container */
+.homeSection {
+  width: 100%;
+  height: 100vh;      /* Full Viewport Height */
+  min-height: 700px;  /* Minimum height to prevent squishing on tiny screens */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================================
+   MOBILE VERTICAL ALIGNMENT FIX
+   ========================================= */
+@media (max-width: 1024px) {
+  .homeSection {
+    height: auto;       /* Allow scrolling if content is tall */
+    min-height: 100vh;  /* Still try to fill screen */
+    padding: 20px 0;    /* Add padding to prevent edge touching */
+  }
+
+/* Tiny Screens (e.g., iPhone SE) */
+@media (max-width: 375px) {
+  .title { font-size: 1.8rem; }
+  .btn-container { flex-wrap: wrap; }
+}}
