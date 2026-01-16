@@ -2508,20 +2508,37 @@ body, button, input {
 .apple-card {
     position: relative;
     width: 100%;
-    max-width: 440px; /* Reduced from 520px for desktop */
+    max-width: 440px;
     padding: 24px;
-
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(45px);
-    -webkit-backdrop-filter: blur(45px);
-    box-shadow: 0 0 10px 1px #00000040;
-
-    font-weight: 300;
-
-    transition: transform 0.4s ease, border-color 0.4s ease;
-    overflow: hidden;
     margin: 0 auto;
     border-radius: 2rem;
+    overflow: hidden;
+
+    /* 1. The Gradient: Simulates light hitting the surface */
+    background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.1)
+    );
+
+    /* 2. The Blur: The "Frost" effect */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    /* 3. The Border: Essential for defining the glass edges */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);     /* Highlights top edge */
+    border-left: 1px solid rgba(255, 255, 255, 0.5);    /* Highlights left edge */
+
+    /* 4. The Shadow: Adds depth/elevation */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+
+    /* Font styling */
+    font-weight: 300;
+    color: #333; /* Dark text for contrast on white glass */
+
+    /* Animation */
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* Header */
