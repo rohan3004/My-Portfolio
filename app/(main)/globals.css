@@ -2511,7 +2511,7 @@ body, button, input {
     max-width: 440px; /* Reduced from 520px for desktop */
     padding: 24px;
 
-    background: #ffffff14;
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(45px);
     -webkit-backdrop-filter: blur(45px);
     box-shadow: 0 0 10px 1px #00000040;
