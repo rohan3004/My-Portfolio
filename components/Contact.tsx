@@ -264,8 +264,8 @@ export default function Contact() {
                 <div className="footer-links">
                     <p>Copyright &copy; <span id="year">{new Date().getFullYear()}</span> Rohan Chakravarty. All Rights
                         Reserved.</p>
-                    <a href="https://www.rcxdev.com/legal/privacy" target="_blank">Privacy Policy</a>
-                    <a href="https://www.rcxdev.com/legal/terms" target="_blank">Terms of Use</a>
+                    <a href="https://portfolio.byrohan.in/legal/privacy" target="_blank">Privacy Policy</a>
+                    <a href="https://portfolio.byrohan.in/legal/terms" target="_blank">Terms of Use</a>
                     <p>India</p>
                 </div>
             </footer>

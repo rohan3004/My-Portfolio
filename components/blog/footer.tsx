@@ -73,7 +73,7 @@ export function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="mt-16 pt-8 border-t border-gray-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500 dark:text-gray-500 font-mono">
-                    <p>© {new Date().getFullYear()} Rohan Chakravarty. Bangalore, India.</p>
+                    <p>© {new Date().getFullYear()} Rohan Chakravarty. Kolkata, India.</p>
                     <div className="flex items-center gap-6">
                         <Link href="/rss" className="hover:text-gray-900 dark:hover:text-gray-300">RSS</Link>
                         <Link href="/sitemap" className="hover:text-gray-900 dark:hover:text-gray-300">Sitemap</Link>
