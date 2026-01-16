@@ -3,9 +3,11 @@
 /* 1. WRAPPER */
 .not-found-wrapper {
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://rcxdev.com/assets/404.webp') center/cover;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://rcxdev.com/assets/404.webp') center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,12 +18,16 @@
 /* 2. RESET */
 .not-found-wrapper * {
     box-sizing: border-box;
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     font-family: "JetBrains Mono", monospace;
     font-size: 15px;
     color: rgba(255, 255, 255, 0.9);
 }
-.not-found-wrapper a { text-decoration: none; }
+
+.not-found-wrapper a {
+    text-decoration: none;
+}
 
 /* 3. TERMINAL WINDOW - The Main Animation Block */
 .terminal-window {
@@ -35,8 +41,8 @@
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-radius: 12px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.1);
-    
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
     /* Animation Settings */
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); /* Smooth 'Apple' Easing */
     transform-origin: bottom center; /* Shrink towards the bottom */
@@ -54,21 +60,50 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px 12px 0 0;
 }
-.Menu_BTN { display: flex; gap: 8px; }
+
+.Menu_BTN {
+    display: flex;
+    gap: 8px;
+}
+
 .Menu_BTN span {
-    width: 12px; height: 12px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.2s, opacity 0.2s;
 }
-.Menu_BTN:hover span { opacity: 1; }
-.Menu_BTN span:hover { transform: scale(1.1); }
-.Menu_BTN span:nth-child(1) { background: #ff5f56; }
-.Menu_BTN span:nth-child(2) { background: #ffbd2e; }
-.Menu_BTN span:nth-child(3) { background: #27c93f; }
 
-.title_Terminal { font-size: 13px; opacity: 0.6; }
-.title_404 { font-size: 12px; font-weight: 700; opacity: 0.4; }
+.Menu_BTN:hover span {
+    opacity: 1;
+}
+
+.Menu_BTN span:hover {
+    transform: scale(1.1);
+}
+
+.Menu_BTN span:nth-child(1) {
+    background: #ff5f56;
+}
+
+.Menu_BTN span:nth-child(2) {
+    background: #ffbd2e;
+}
+
+.Menu_BTN span:nth-child(3) {
+    background: #27c93f;
+}
+
+.title_Terminal {
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+.title_404 {
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0.4;
+}
 
 /* 5. BODY */
 .Terminal_body {
@@ -79,37 +114,102 @@
     display: block;
     cursor: text;
 }
-.Terminal_body::-webkit-scrollbar { width: 6px; }
-.Terminal_body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+
+.Terminal_body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.Terminal_body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
 
 /* 6. CONTENT STYLES */
-.line { margin-bottom: 6px; line-height: 1.6; word-break: break-word; }
-.dim { opacity: 0.5; }
-.red { color: #ff5f56; }
-.green { color: #27c93f; }
-.blue { color: #5bc0de; }
-.yellow { color: #ffbd2e; }
-.purple { color: #bd93f9; }
+.line {
+    margin-bottom: 6px;
+    line-height: 1.6;
+    word-break: break-word;
+}
+
+.dim {
+    opacity: 0.5;
+}
+
+.red {
+    color: #ff5f56;
+}
+
+.green {
+    color: #27c93f;
+}
+
+.blue {
+    color: #5bc0de;
+}
+
+.yellow {
+    color: #ffbd2e;
+}
+
+.purple {
+    color: #bd93f9;
+}
 
 /* 7. INPUT */
-.input-row { display: flex; align-items: center; flex-wrap: wrap; margin-top: 10px; }
-.input-text { color: #fff; margin-left: 0; white-space: pre-wrap; word-break: break-all; }
-.cursor {
-    display: inline-block; width: 9px; height: 19px; background: rgba(255,255,255,0.9);
-    margin-left: 1px; animation: blink 1s step-end infinite; vertical-align: sub;
+.input-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-.hidden-input { position: absolute; opacity: 0; top: -1000px; left: -1000px; }
+
+.input-text {
+    color: #fff;
+    margin-left: 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.cursor {
+    display: inline-block;
+    width: 9px;
+    height: 19px;
+    background: rgba(255, 255, 255, 0.9);
+    margin-left: 1px;
+    animation: blink 1s step-end infinite;
+    vertical-align: sub;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.hidden-input {
+    position: absolute;
+    opacity: 0;
+    top: -1000px;
+    left: -1000px;
+}
 
 /* 8. ANIMATION STATES */
 
 /* MAXIMIZED: Fills screen */
 .not-found-wrapper.max .terminal-window {
-    width: 100vw; height: 100vh;
-    max-width: none; max-height: none;
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
     border-radius: 0;
 }
-.not-found-wrapper.max .Menubar { border-radius: 0; }
+
+.not-found-wrapper.max .Menubar {
+    border-radius: 0;
+}
 
 /* MINIMIZED: The 'Genie' Effect Simulation */
 .not-found-wrapper.min .terminal-window {
@@ -124,19 +224,20 @@
 .dock-icon {
     position: absolute;
     bottom: 30px;
-    width: 64px; height: 64px;
-    background: rgba(255,255,255,0.1);
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    
+
     /* Start hidden below screen */
-    transform: translateY(150px); 
+    transform: translateY(150px);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -145,14 +246,29 @@
     transform: translateY(0);
 }
 
-.dock-icon:hover { transform: scale(1.15) translateY(-5px); }
-.dock-icon img { width: 65%; height: auto; }
+.dock-icon:hover {
+    transform: scale(1.15) translateY(-5px);
+}
+
+.dock-icon img {
+    width: 65%;
+    height: auto;
+}
 
 /* Mobile */
 @media (max-width: 600px) {
-    .terminal-window { width: 95%; height: 65%; }
-    .not-found-wrapper * { font-size: 13px; }
-    .Terminal_body { padding: 15px; }
+    .terminal-window {
+        width: 95%;
+        height: 65%;
+    }
+
+    .not-found-wrapper * {
+        font-size: 13px;
+    }
+
+    .Terminal_body {
+        padding: 15px;
+    }
 }
 
 /* Update just the .terminal-window class */
@@ -167,14 +283,14 @@
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-radius: 12px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.1);
-    
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
     /* Animation & Positioning */
     position: relative; /* Essential for dragging */
     transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease;
     transform-origin: bottom center;
     opacity: 1;
-    
+
     /* Remove 'transform' here so inline styles or drag logic can control it if needed, 
        but we mostly use left/top for dragging. */
 }
@@ -183,6 +299,7 @@
 .Menubar {
     cursor: grab; /* Shows hand icon */
 }
+
 .Menubar:active {
     cursor: grabbing; /* Shows grabbing hand */
 }
