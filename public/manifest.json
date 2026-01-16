@@ -9,7 +9,7 @@
   "display_override": ["window-controls-overlay", "standalone"],
   "display": "standalone",
   "theme_color": "#b16f59",
-  "background_color": "#0a0a0a",
+  "background_color": "#FFFFFF",
   "orientation": "portrait-primary",
   "categories": ["portfolio", "technology", "productivity"],
   "icons": [
