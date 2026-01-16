@@ -4,7 +4,7 @@ import { Header } from "@/components/blog/header";
 import { Footer } from "@/components/blog/footer";
 
 export const metadata = {
-    title: 'Rohan Chakravarty - Engineering Blog',
+    title: 'Rohan Chakravarty - Blog',
     description: 'Deep dives into code and architecture.',
 };
 

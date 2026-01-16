@@ -8,7 +8,7 @@ const THEME = {
     textDim: '#7a7a7a',
     grid: 'rgba(255, 255, 255, 0.03)',
     leetcode: '#FFA116',
-    codechef: '#b16f59', // Using Theme Color for CodeChef
+    codechef: '#b16f59',
     codeforces: '#1F8ACB',
     gfg: '#2F8D46',
 };
@@ -80,13 +80,10 @@ export default function Stats() {
             beforeDraw: function (chart: any) {
                 const {ctx, width, height} = chart;
                 ctx.restore();
-                ctx.font = `700 2rem "JetBrains Mono"`;
                 ctx.fillStyle = THEME.primary;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(total, width / 2, height / 2 - 10);
-
-                ctx.font = `0.8rem "JetBrains Mono"`;
                 ctx.fillStyle = THEME.textDim;
                 ctx.fillText("SOLVED", width / 2, height / 2 + 20);
                 ctx.save();
@@ -211,7 +208,7 @@ export default function Stats() {
                 {/* LEFT: DONUT VISUALIZER */}
                 <div className="sci-card" style={{minHeight: '350px'}}>
                     <div className="hud-header">
-                        <div className="hud-title"><i className="fa-solid fa-circle-nodes"></i> DATA_DISTRIBUTION</div>
+                        <div className="hud-title"><i className="fa-solid fa-circle-nodes"></i> PLATFORM WISE</div>
                         <div style={{fontSize: '0.7rem', color: THEME.textDim}}>v2.4.0</div>
                     </div>
                     <div style={{flex: 1, position: 'relative'}}>
@@ -236,7 +233,7 @@ export default function Stats() {
                 {/* RIGHT: COMMAND DECK */}
                 <div className="sci-card">
                     <div className="hud-header" style={{flexWrap: 'wrap', gap: '10px'}}>
-                        <div className="hud-title"><i className="fa-solid fa-wave-square"></i> LIVE_FEED</div>
+                        <div className="hud-title"><i className="fa-solid fa-wave-square"></i> SUMMARY</div>
 
                         {/* Sci-Fi Tabs */}
                         <div className="cyber-tabs">
@@ -263,7 +260,7 @@ export default function Stats() {
                     </div>
 
                     {/* TERMINAL LOG (Responsive Text Area) */}
-                    <div className="hud-title" style={{marginBottom: '5px', fontSize: '0.75rem'}}>SUMMARY_LOGS //</div>
+                    <div className="hud-title" style={{marginBottom: '5px', fontSize: '0.75rem'}}>KEY_METRICS //</div>
                     <div className="terminal-box">
                         <Typewriter text={logMessage}/>
                         <span className="terminal-cursor"></span>

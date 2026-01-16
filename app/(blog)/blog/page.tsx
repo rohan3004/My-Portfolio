@@ -3,7 +3,7 @@ import { getBlogPosts, estimateReadingTime } from '@/lib/blog';
 import { ArrowRight, Clock, Calendar, Tag } from 'lucide-react';
 
 export const metadata = {
-    title: 'Writing - Rohan.Dev',
+    title: 'Rohan Chakravarty - Blog',
     description: 'Engineering thoughts, system design patterns, and low-level explorations.',
 };
 

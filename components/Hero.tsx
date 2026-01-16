@@ -138,7 +138,7 @@ export default function Hero() {
                                     {stats.loaded ? stats.badges : <div className="sk-anim sk-block"></div>}
                                 </div>
                                 <div className="ac-sub">
-                                    {stats.loaded ? "LeetCode Mastery" : <div className="sk-anim sk-text"></div>}
+                                    {stats.loaded ? "LeetCode" : <div className="sk-anim sk-text"></div>}
                                 </div>
                             </div>
                         </div>
@@ -181,8 +181,9 @@ export default function Hero() {
                             className="fa-solid fa-address-book"></i></button>
                     </div>
                     <div id="socials-container">
+                        {/*Todo: Settings Icon*/}
                         <img src="/assets/health.svg" alt="Health" className="icon"
-                             onClick={() => location.href = 'https://rcxdev.com/health'}/>
+                             onClick={() => location.href = 'https://dashboards.byrohan.in'}/>
                         <img src="/assets/mail.svg" alt="Email" className="icon"
                              onClick={() => location.href = 'mailto:hello@rcxdev.com'}/>
                         <img src="/assets/linkedin.svg" alt="LinkedIn" className="icon"
