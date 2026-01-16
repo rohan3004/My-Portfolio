@@ -1,0 +1,24 @@
+---
+title: "Building Design Systems"
+date: "2025-01-18"
+description: "Why you should stop copy-pasting hex codes and start using tokens."
+---
+
+# Introduction
+
+Design systems are more than just a **Figma** library. They are the language your team uses to build products.
+
+## The Problem with Hex Codes
+
+Using raw hex codes like `#3b82f6` in your codebase is a recipe for disaster.
+
+```typescript
+// ❌ Bad
+const Button = styled.button`
+  background: #3b82f6;
+`;
+
+// ✅ Good (Using Tokens)
+const Button = styled.button`
+  background: var(--color-primary-500);
+`;

@@ -1,5 +1,6 @@
 "use client";
 import {useEffect, useState} from "react";
+import Link from "next/link";
 
 export default function Navbar() {
     const [hidden, setHidden] = useState(false);
@@ -31,7 +32,7 @@ export default function Navbar() {
 
             </div>
             {/* Blog Link */}
-            <a href="https://blog.rohandev.online" className="link">
+            <Link href="/blog" className="link">
         <span className="link-icon">
            {/* SVG Code from your HTML for Blog */}
             <svg width="192" height="192" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path
@@ -42,7 +43,7 @@ export default function Navbar() {
                 fill="#000000"/></svg>
         </span>
                 <span className="link-title">Blog</span>
-            </a>
+            </Link>
             {/* Projects Link */}
             <a href="#projects" className="link">
         <span className="link-icon">

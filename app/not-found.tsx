@@ -166,7 +166,11 @@ export default function NotFound() {
         // Optional: Reset position on restore or keep it where it was
     };
 
+    // 🔴 THE FIX: Wrap everything in html/body tags
     return (
+        <html lang="en">
+        {/* Added style to prevent default browser margins */}
+        <body style={{ margin: 0, padding: 0, overflow: 'hidden' }}>
         <div className={`not-found-wrapper ${windowState}`} onClick={() => inputRef.current?.focus()}>
 
             {/* TERMINAL WINDOW */}
@@ -239,5 +243,7 @@ export default function NotFound() {
             </div>
 
         </div>
+        </body>
+        </html>
     );
 }
