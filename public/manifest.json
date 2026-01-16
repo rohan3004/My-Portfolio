@@ -1,22 +1,29 @@
 {
-  "name": "Rohan Chakravarty",
+  "name": "Rohan Chakravarty's Portfolio",
+  "short_name": "Rohan's Portfolio",
+  "id": "/",
   "description": "Rohan Chakravarty - Portfolio",
   "version": "v1.0.0",
   "short_name": "Rohan Chakravarty",
-  "start_url": "https://rcxdev.com",
+  "start_url": "/",
+  "display_override": ["window-controls-overlay", "standalone"],
   "display": "standalone",
   "theme_color": "#b16f59",
-  "background_color": "#FFFFFF",
+  "background_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "categories": ["portfolio", "technology", "productivity"],
   "icons": [
     {
-      "src": "https://rcxdev.com/assets/logo.webp",
+      "src": "/assets/logo.webp",
       "sizes": "512x512",
-      "type": "image/webp"
+      "type": "image/webp",
+      "purpose": "any"
     },
     {
-      "src": "https://rcxdev.com/assets/logo.webp",
+      "src": "/assets/logo.webp",
       "sizes": "192x192",
-      "type": "image/webp"
+      "type": "image/webp",
+      "purpose": "any"
     }
   ]
 }

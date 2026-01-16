@@ -3,6 +3,14 @@ import "./globals.css";
 import Cursor from "@/components/Cursor";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
+export const viewport = {
+    themeColor: "#b16f59",
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false, // Optional: Makes it feel more like an native app
+};
+
 export const metadata: Metadata = {
     title: "Rohan Chakravarty - Portfolio",
     description: "I am Software Developer Engineer, Cloud Architect, DevOps Engineer",
