@@ -2513,13 +2513,7 @@ body, button, input {
     margin: 0 auto;
     border-radius: 2rem;
     overflow: hidden;
-
-    /* 1. The Gradient: Simulates light hitting the surface */
-    background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.2),
-            rgba(255, 255, 255, 0.1)
-    );
+    background: #ffffff14;
 
     /* 2. The Blur: The "Frost" effect */
     backdrop-filter: blur(20px);
