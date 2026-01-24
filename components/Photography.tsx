@@ -1,91 +1,150 @@
 "use client";
-import {useEffect, useState} from "react";
+import { useEffect, useState, useRef } from "react";
+
+interface PhotoData {
+  id: number;
+  caption: string;
+  device: string;
+  imageUrl: string;
+  rotation: number;
+}
 
 export default function Photography() {
-    const [posts, setPosts] = useState<any[]>([]);
+  const [selectedImg, setSelectedImg] = useState<PhotoData | null>(null);
+  const [photos, setPhotos] = useState<PhotoData[]>([]);
+  const [developedId, setDevelopedId] = useState<number | null>(null);
+  
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [parallaxOffsets, setParallaxOffsets] = useState<number[]>([]);
 
-    useEffect(() => {
-        // Complete list of all 12 photos from your original project
-        const allCaptions = [
-            {caption: "Lost in Heaven<br>Shot on Canon EOS R10", imageUrl: "/assets/photography/p11.png"},
-            {caption: "Hadimba Temple<br>Shot on Canon EOS R10", imageUrl: "/assets/photography/p12.png"},
-            {caption: "It's Either You or Nobody✨<br>Shot on Xiaomi 11T Pro", imageUrl: "/assets/photography/p10.jpeg"},
-            {caption: "Sunset<br>Shot on Xiaomi 11T Pro", imageUrl: "/assets/photography/p9.jpg"},
-            {caption: "Kolkata Christmas<br>Shot on Xiaomi 11T Pro", imageUrl: "/assets/photography/p8.jpg"},
-            {caption: "Khiderpore Docks<br>Shot on Redmi Note 10 Pro Max", imageUrl: "/assets/photography/p7.jpg"},
-            {caption: "Macro Photography<br>Shot on Redmi Note 10 Pro Max", imageUrl: "/assets/photography/p6.jpg"},
-            {caption: "Railway Tracks<br>Shot on Redmi K30", imageUrl: "/assets/photography/p5.jpg"},
-            {caption: "Fountain Stop Motion<br>Shot on Redmi K30", imageUrl: "/assets/photography/p4.jpg"},
-            {caption: "Beautiful Sunrise Sky<br>Shot on Redmi K30", imageUrl: "/assets/photography/p3.jpg"},
-            {
-                caption: "Night Photography - Bulb Mode<br>Shot on Redmi Note 8 Pro",
-                imageUrl: "/assets/photography/p2.jpg"
-            },
-            {caption: "Annual Solar Eclipse<br>Shot on Redmi Note 8 Pro", imageUrl: "/assets/photography/p1.jpg"},
-        ];
+  // ORIGINAL DATA RESTORED
+  const rawPhotos = [
+    { caption: "Lost in Heaven", device: "Shot on Canon EOS R10", imageUrl: "/assets/photography/p11.png" },
+    { caption: "Hadimba Temple", device: "Shot on Canon EOS R10", imageUrl: "/assets/photography/p12.png" },
+    { caption: "You or Nobody", device: "Shot on Xiaomi 11T Pro", imageUrl: "/assets/photography/p10.jpeg" },
+    { caption: "Sunset", device: "Shot on Xiaomi 11T Pro", imageUrl: "/assets/photography/p9.jpg" },
+    { caption: "Kolkata XMas", device: "Shot on Xiaomi 11T Pro", imageUrl: "/assets/photography/p8.jpg" },
+    { caption: "Khiderpore Docks", device: "Shot on Redmi Note 10 Pro Max", imageUrl: "/assets/photography/p7.jpg" },
+    { caption: "Macro World", device: "Shot on Redmi Note 10 Pro Max", imageUrl: "/assets/photography/p6.jpg" },
+    { caption: "Railway Tracks", device: "Shot on Redmi K30", imageUrl: "/assets/photography/p5.jpg" },
+    { caption: "Fountain Freeze Frame", device: "Shot on Redmi K30", imageUrl: "/assets/photography/p4.jpg" },
+    { caption: "Sunrise", device: "Shot on Redmi K30", imageUrl: "/assets/photography/p3.jpg" },
+    { caption: "Bulb Mode", device: "Shot on Redmi Note 8 Pro", imageUrl: "/assets/photography/p2.jpg" },
+    { caption: "Solar Eclipse", device: "Shot on Redmi Note 8 Pro", imageUrl: "/assets/photography/p1.jpg" },
+  ];
 
-        // Restoring your original logic: Only show first 4 images on mobile devices
-        if (window.innerWidth <= 768) {
-            setPosts(allCaptions.slice(0, 4));
-        } else {
-            setPosts(allCaptions);
-        }
+  useEffect(() => {
+    const processed = rawPhotos.map((p, idx) => ({
+        ...p,
+        id: idx,
+        rotation: Math.random() * 4 - 2 
+    }));
+    setPhotos(processed);
+    setParallaxOffsets(new Array(processed.length).fill(0));
+  }, []);
 
-        // Optional: Handle resize to update the count dynamically
-        const handleResize = () => {
-            if (window.innerWidth <= 768) {
-                setPosts(allCaptions.slice(0, 4));
-            } else {
-                setPosts(allCaptions);
-            }
-        };
+  const handleScroll = () => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    const scrollLeft = container.scrollLeft;
+    const width = container.clientWidth;
+    
+    const index = Math.round(scrollLeft / (width * 0.8));
+    setActiveIndex(Math.min(Math.max(index, 0), photos.length - 1));
 
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+    if (window.innerWidth <= 768) {
+        const newOffsets = photos.map((_, i) => {
+            const cardCenter = (i * width * 0.85) + (width * 0.85 / 2);
+            const viewCenter = scrollLeft + (width / 2);
+            const dist = viewCenter - cardCenter;
+            return dist * 0.15; 
+        });
+        setParallaxOffsets(newOffsets);
+    }
+  };
 
-    }, []);
+  const handlePhotoClick = (photo: PhotoData) => {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      if (developedId === photo.id) setSelectedImg(photo);
+      else setDevelopedId(photo.id);
+    } else {
+      setSelectedImg(photo);
+    }
+  };
 
-    return (
-        <div className="photographyDiv">
-            <section id="photography">
-                <p className="section__text__p1" style={{color: "#f2e4ef"}}>Exploring the art of storytelling through
-                    visuals</p>
-                <h1 className="title">Through My Lens</h1>
-                <div className="experience-details-container">
-                    <div id="sp">
-                        {posts.map((post, idx) => (
-                            <div className="repo-card" key={idx}>
-                                <div className="instagram-photo">
-                                    <div className="instagram-header">
-                                        <figure>
-                                            <img src="/assets/insta-pic.webp" alt="Rohan" width="42" height="42"
-                                                 loading="lazy"/>
-                                            <figcaption><h4>rohan.chakravarty</h4></figcaption>
-                                        </figure>
-                                    </div>
-                                    <div className="insta-media"><img src={post.imageUrl} alt={`Photograph ${idx}`}
-                                                                      loading="lazy"/></div>
-                                    <div className="insta-buttons">
-                                        <div className="left">
-                                            <i className="fa-regular fa-heart"
-                                               style={{fontSize: '1.5rem', marginRight: '10px'}}></i>
-                                            <i className="fa-regular fa-comment"
-                                               style={{fontSize: '1.5rem', marginRight: '10px'}}></i>
-                                            <i className="fa-regular fa-paper-plane" style={{fontSize: '1.5rem'}}></i>
-                                        </div>
-                                        <div className="right">
-                                            <i className="fa-regular fa-bookmark" style={{fontSize: '1.5rem'}}></i>
-                                        </div>
-                                    </div>
-                                    <h2 className="sp-captions" dangerouslySetInnerHTML={{__html: post.caption}}></h2>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <img src="/assets/arrow.svg" alt="Arrow" className="icon arrow"
-                     onClick={() => location.href = './#contact'}/>
-            </section>
+  return (
+    <div className="diary-wrapper">
+      <div className="paper-grain"></div>
+
+      <section id="photography">
+        
+        <div className="diary-header">
+          <span className="diary-tag">VISUAL ARCHIVES</span>
+          <h1 className="diary-title">
+            Chasing <span>Light</span>
+          </h1>
         </div>
-    );
+
+        <div className="marker-hint">
+            <i className="fa-regular fa-hand-point-up"></i>
+            <span>Tap to Develop</span>
+        </div>
+
+        <div 
+            className="diary-grid" 
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+        >
+          {photos.map((photo, idx) => (
+            <div 
+              key={photo.id} 
+              className={`polaroid ${developedId === photo.id ? 'developed' : ''}`}
+              style={{ '--rotation': `${photo.rotation}deg` } as React.CSSProperties}
+              onClick={() => handlePhotoClick(photo)}
+            >
+              <div className="polaroid-frame">
+                  <img 
+                    src={photo.imageUrl} 
+                    alt={photo.caption} 
+                    className="polaroid-img"
+                    style={{
+                        transform: `scale(1.2) translateX(${parallaxOffsets[idx] || 0}px)`
+                    }}
+                    loading="lazy" 
+                  />
+              </div>
+              <div className="polaroid-text">
+                  <span className="polaroid-caption">{photo.caption}</span>
+                  <span className="polaroid-meta">{photo.device}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="carousel-indicators">
+            {photos.map((_, i) => (
+                <div 
+                    key={i} 
+                    className={`c-dot ${i === activeIndex ? 'active' : ''}`}
+                ></div>
+            ))}
+        </div>
+
+      </section>
+
+      {selectedImg && (
+        <div className="diary-lightbox" onClick={() => setSelectedImg(null)}>
+          <div className="lb-close" onClick={() => setSelectedImg(null)}>&times;</div>
+          <div className="lb-content" onClick={(e) => e.stopPropagation()}>
+            <img src={selectedImg.imageUrl} alt={selectedImg.caption} className="lb-img" />
+            <div className="lb-text">{selectedImg.caption}</div>
+            <div className="lb-meta">{selectedImg.device}</div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
 }
