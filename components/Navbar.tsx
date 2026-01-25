@@ -115,10 +115,10 @@ export default function Navbar() {
   return (
     <div className={`nebula-container ${isHidden ? "nebula-hidden" : ""}`}>
       <nav className="nebula-dock">
-        
+
         {/* 1. Identity */}
-        <div 
-          className="nebula-logo-btn" 
+        <div
+          className="nebula-logo-btn"
           onClick={() => (window.location.href = "/")}
         >
           <img src="/assets/logo.webp" alt="Logo" className="nebula-logo-img" />

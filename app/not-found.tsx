@@ -1,7 +1,7 @@
 "use client";
 
-import {useEffect, useRef, useState} from "react";
-import {useRouter} from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import "./not-found.css";
 
 interface UserData {
@@ -24,9 +24,9 @@ export default function NotFound() {
     const [windowState, setWindowState] = useState<"normal" | "max" | "min">("normal");
 
     // Drag State
-    const [position, setPosition] = useState({x: 0, y: 0});
+    const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
-    const dragOffset = useRef({x: 0, y: 0});
+    const dragOffset = useRef({ x: 0, y: 0 });
 
     // Refs
     const inputRef = useRef<HTMLInputElement>(null);
@@ -48,7 +48,7 @@ export default function NotFound() {
                     timezone: json.timezone || "UTC",
                 });
             })
-            .catch(() => setData({ip: "127.0.0.1", city: "Localhost", isp: "Offline", timezone: "UTC"}));
+            .catch(() => setData({ ip: "127.0.0.1", city: "Localhost", isp: "Offline", timezone: "UTC" }));
     }, []);
 
     // 2. Drag Logic (Global Event Listeners)
@@ -60,7 +60,7 @@ export default function NotFound() {
             const newX = e.clientX - dragOffset.current.x;
             const newY = e.clientY - dragOffset.current.y;
 
-            setPosition({x: newX, y: newY});
+            setPosition({ x: newX, y: newY });
         };
 
         const handleMouseUp = () => {
@@ -118,7 +118,7 @@ export default function NotFound() {
             case "help":
                 outputNode = (
                     <div className="line">
-                        Available commands:<br/>
+                        Available commands:<br />
                         <span className="yellow">help</span> - Show menu | <span className="yellow">whoami</span> - Info
                         | <span className="yellow">report</span> - Log error | <span className="yellow">exit</span> -
                         Home
@@ -135,7 +135,7 @@ export default function NotFound() {
             default:
                 outputNode = <div className="line">Command not found: <span className="red">{cleanCmd}</span></div>;
         }
-        setHistory((prev) => [...prev, {cmd, output: outputNode}]);
+        setHistory((prev) => [...prev, { cmd, output: outputNode }]);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -157,7 +157,7 @@ export default function NotFound() {
     const handleMaximize = (e: React.MouseEvent) => {
         e.stopPropagation();
         // Reset position when maximizing so it fills screen properly
-        setPosition({x: 0, y: 0});
+        setPosition({ x: 0, y: 0 });
         setWindowState(prev => prev === "max" ? "normal" : "max");
     };
     const handleRestore = (e: React.MouseEvent) => {
@@ -169,81 +169,81 @@ export default function NotFound() {
     // 🔴 THE FIX: Wrap everything in html/body tags
     return (
         <html lang="en">
-        {/* Added style to prevent default browser margins */}
-        <body style={{ margin: 0, padding: 0, overflow: 'hidden' }}>
-        <div className={`not-found-wrapper ${windowState}`} onClick={() => inputRef.current?.focus()}>
+            {/* Added style to prevent default browser margins */}
+            <body style={{ margin: 0, padding: 0, overflow: 'hidden' }}>
+                <div className={`not-found-wrapper ${windowState}`} onClick={() => inputRef.current?.focus()}>
 
-            {/* TERMINAL WINDOW */}
-            <div
-                className="terminal-window"
-                // Apply Drag Position via Inline Styles
-                style={{
-                    left: windowState === 'normal' ? `${position.x}px` : '0px',
-                    top: windowState === 'normal' ? `${position.y}px` : '0px'
-                }}
-            >
-                {/* HEADER (Draggable Target) */}
-                <div className="Menubar" onMouseDown={startDrag}>
-                    <div className="Menu_BTN">
-                        <span onClick={handleClose} title="Close"></span>
-                        <span onClick={handleMinimize} title="Minimize"></span>
-                        <span onClick={handleMaximize} title="Zoom"></span>
-                    </div>
-                    <div className="title_Terminal">guest — -zsh — 80x24</div>
-                    <div className="title_404">404</div>
-                </div>
-
-                {/* BODY */}
-                <div className="Terminal_body" ref={bodyRef}>
-                    <div className="line">Last login: {new Date().toLocaleDateString()} on <span
-                        className="purple">ttys001</span></div>
-                    <div className="line" style={{marginTop: '10px'}}>
-                        Connection: <span className="green">{data ? data.ip : "Loading..."}</span> via <span
-                        className="blue">{data ? data.isp : "..."}</span>.
-                        <br/>
-                        Location: <span
-                        className="yellow">{data ? data.city : "..."}</span> ({data ? data.timezone : "..."}).
-                    </div>
-                    <div className="line" style={{marginTop: '10px', marginBottom: '20px'}}>
-                        <span className="red">[ERROR 404]</span> Target not found: <span
-                        className="dim">{currentUrl}</span>
-                        <br/>System halted. Type <span className="yellow">help</span> for options.
-                    </div>
-
-                    {history.map((item, i) => (
-                        <div key={i}>
-                            <div className="line"><span className="green">➜</span> <span className="blue">~</span> <span
-                                className="dim">{item.cmd}</span></div>
-                            {item.output}
+                    {/* TERMINAL WINDOW */}
+                    <div
+                        className="terminal-window"
+                        // Apply Drag Position via Inline Styles
+                        style={{
+                            left: windowState === 'normal' ? `${position.x}px` : '0px',
+                            top: windowState === 'normal' ? `${position.y}px` : '0px'
+                        }}
+                    >
+                        {/* HEADER (Draggable Target) */}
+                        <div className="Menubar" onMouseDown={startDrag}>
+                            <div className="Menu_BTN">
+                                <span onClick={handleClose} title="Close"></span>
+                                <span onClick={handleMinimize} title="Minimize"></span>
+                                <span onClick={handleMaximize} title="Zoom"></span>
+                            </div>
+                            <div className="title_Terminal">guest — -zsh — 80x24</div>
+                            <div className="title_404">404</div>
                         </div>
-                    ))}
 
-                    <div className="input-row">
-                        <span className="green">➜</span> &nbsp;<span className="blue">~</span> &nbsp;
-                        <span className="input-text">{inputVal}</span>
-                        <span className="cursor"></span>
+                        {/* BODY */}
+                        <div className="Terminal_body" ref={bodyRef}>
+                            <div className="line">Last login: {new Date().toLocaleDateString()} on <span
+                                className="purple">ttys001</span></div>
+                            <div className="line" style={{ marginTop: '10px' }}>
+                                Connection: <span className="green">{data ? data.ip : "Loading..."}</span> via <span
+                                    className="blue">{data ? data.isp : "..."}</span>.
+                                <br />
+                                Location: <span
+                                    className="yellow">{data ? data.city : "..."}</span> ({data ? data.timezone : "..."}).
+                            </div>
+                            <div className="line" style={{ marginTop: '10px', marginBottom: '20px' }}>
+                                <span className="red">[ERROR 404]</span> Target not found: <span
+                                    className="dim">{currentUrl}</span>
+                                <br />System halted. Type <span className="yellow">help</span> for options.
+                            </div>
+
+                            {history.map((item, i) => (
+                                <div key={i}>
+                                    <div className="line"><span className="green">➜</span> <span className="blue">~</span> <span
+                                        className="dim">{item.cmd}</span></div>
+                                    {item.output}
+                                </div>
+                            ))}
+
+                            <div className="input-row">
+                                <span className="green">➜</span> &nbsp;<span className="blue">~</span> &nbsp;
+                                <span className="input-text">{inputVal}</span>
+                                <span className="cursor"></span>
+                            </div>
+
+                            <input
+                                ref={inputRef}
+                                className="hidden-input"
+                                type="text"
+                                value={inputVal}
+                                onChange={(e) => setInputVal(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                autoComplete="off"
+                                spellCheck="false"
+                            />
+                        </div>
                     </div>
 
-                    <input
-                        ref={inputRef}
-                        className="hidden-input"
-                        type="text"
-                        value={inputVal}
-                        onChange={(e) => setInputVal(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        autoComplete="off"
-                        spellCheck="false"
-                    />
+                    {/* DOCK ICON */}
+                    <div className="dock-icon" onClick={handleRestore}>
+                        <img src="https://rcxdev.com/assets/terminal.webp" alt="Terminal" />
+                    </div>
+
                 </div>
-            </div>
-
-            {/* DOCK ICON */}
-            <div className="dock-icon" onClick={handleRestore}>
-                <img src="https://rcxdev.com/assets/terminal.webp" alt="Terminal"/>
-            </div>
-
-        </div>
-        </body>
+            </body>
         </html>
     );
 }

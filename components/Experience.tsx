@@ -32,7 +32,7 @@ export default function Experience() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      
+
       // 1. Header Animation
       gsap.from(".chrono-header", {
         scrollTrigger: {
@@ -80,23 +80,23 @@ export default function Experience() {
 
   return (
     <section id="experience" className="chrono-wrapper" ref={wrapperRef}>
-      
+
       {/* HEADER */}
       <div className="chrono-header">
         <span className="chrono-label">// Journey Log</span>
-        <h2 className="chrono-title">Professional<br/>Milestones</h2>
+        <h2 className="chrono-title">Professional<br />Milestones</h2>
       </div>
 
       {/* TIMELINE SYSTEM */}
       <div className="chrono-system">
-        
+
         {/* The glowing line connecting everything */}
         <div className="chrono-trace-line"></div>
 
         {/* LOOP THROUGH DATA */}
         {EXPERIENCE_DATA.map((item, index) => (
           <div key={index} className="chrono-node">
-            
+
             {/* Left: The Glowing Orb */}
             <div className="chrono-orb-container">
               <div className="chrono-orb"></div>
@@ -104,7 +104,7 @@ export default function Experience() {
 
             {/* Right: The Content Card */}
             <div className="chrono-card">
-              
+
               <div className="chrono-meta">
                 <div>
                   <h3 className="chrono-role">{item.role}</h3>
@@ -134,13 +134,13 @@ export default function Experience() {
       </div>
 
       {/* Decorative Navigation Arrow */}
-      <div style={{textAlign: 'center', marginTop: '3rem', opacity: 0.5, cursor: 'pointer'}}>
-         <img 
-            src="/assets/arrow.svg" 
-            alt="Next" 
-            style={{width: '30px', filter: 'invert(1)'}}
-            onClick={() => location.href = '#projects'}
-         />
+      <div style={{ textAlign: 'center', marginTop: '3rem', opacity: 0.5, cursor: 'pointer' }}>
+        <img
+          src="/assets/arrow.svg"
+          alt="Next"
+          style={{ width: '30px', filter: 'invert(1)' }}
+          onClick={() => location.href = '#projects'}
+        />
       </div>
 
     </section>

@@ -1,5 +1,5 @@
 "use client";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import BongoCat from "./BongoCat";
 
 export default function Contact() {
@@ -58,7 +58,7 @@ export default function Contact() {
 
             const res = await fetch("https://apis.byrohan.in/v1/contact", {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
 
@@ -95,7 +95,7 @@ export default function Contact() {
                         <div className="screen">
 
                             <div className="bongo-layer">
-                                <BongoCat/>
+                                <BongoCat />
                             </div>
 
                             <div className="screen-header">
@@ -104,7 +104,7 @@ export default function Contact() {
                                     <div className="screen-header-button maximize"></div>
                                     <div className="screen-header-button minimize"></div>
                                 </div>
-                                <div className="TitleBar" style={{opacity: 0.7, color: '#b16f59'}}>
+                                <div className="TitleBar" style={{ opacity: 0.7, color: '#b16f59' }}>
                                     {formState === 'sending' ? 'Transmitting...' :
                                         formState === 'success' ? 'Sent' :
                                             formState === 'locked' ? 'Connection Cooldown' : 'New Message'}
@@ -136,28 +136,28 @@ export default function Contact() {
                                         <div className="app-form">
                                             <div className="app-form-group">
                                                 <input className="app-form-control" name="name" placeholder="NAME"
-                                                       required disabled={formState === 'locked'}/>
+                                                    required disabled={formState === 'locked'} />
                                             </div>
                                             <div className="app-form-group">
                                                 <input className="app-form-control" name="email" type="email"
-                                                       placeholder="EMAIL" required disabled={formState === 'locked'}/>
+                                                    placeholder="EMAIL" required disabled={formState === 'locked'} />
                                             </div>
                                             <div className="app-form-group">
                                                 <input className="app-form-control" name="contactNo"
-                                                       placeholder="CONTACT NO" required
-                                                       disabled={formState === 'locked'}/>
+                                                    placeholder="CONTACT NO" required
+                                                    disabled={formState === 'locked'} />
                                             </div>
                                             <div className="app-form-group message">
                                                 <input className="app-form-control" name="message" placeholder="MESSAGE"
-                                                       required disabled={formState === 'locked'}/>
+                                                    required disabled={formState === 'locked'} />
                                             </div>
                                             <div className="app-form-group buttons">
                                                 <button type="button" className="app-form-button" onClick={clearForm}
-                                                        disabled={formState === 'locked'}>
+                                                    disabled={formState === 'locked'}>
                                                     RESET
                                                 </button>
                                                 <button type="submit" className="app-form-button"
-                                                        disabled={formState === 'locked'}>
+                                                    disabled={formState === 'locked'}>
                                                     SEND
                                                 </button>
                                             </div>
@@ -174,7 +174,7 @@ export default function Contact() {
                                                 <div></div>
                                             </div>
                                             <p className="status-text"
-                                               style={{fontSize: '0.9rem', opacity: 0.8}}>Sending...</p>
+                                                style={{ fontSize: '0.9rem', opacity: 0.8 }}>Sending...</p>
                                         </div>
                                     )}
 
@@ -195,8 +195,8 @@ export default function Contact() {
                                     {/* 3. LOCKED (Cooldown Active) */}
                                     {formState === "locked" && (
                                         <div className="form-overlay">
-                                            <div className="success-icon-circle" style={{borderColor: '#666'}}>
-                                                <svg viewBox="0 0 24 24" style={{fill: '#aaa'}}>
+                                            <div className="success-icon-circle" style={{ borderColor: '#666' }}>
+                                                <svg viewBox="0 0 24 24" style={{ fill: '#aaa' }}>
                                                     <path
                                                         d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
                                                     <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path>
@@ -215,10 +215,10 @@ export default function Contact() {
                                     {/* 4. ERROR */}
                                     {formState === "error" && (
                                         <div className="form-overlay">
-                                            <p className="status-text" style={{color: '#ff605c'}}>Transmission Error</p>
+                                            <p className="status-text" style={{ color: '#ff605c' }}>Transmission Error</p>
                                             <button
                                                 className="app-form-button"
-                                                style={{marginTop: '15px'}}
+                                                style={{ marginTop: '15px' }}
                                                 onClick={() => setFormState('idle')}
                                             >
                                                 Retry
@@ -236,26 +236,26 @@ export default function Contact() {
                     <p className="headingTS">Built Using</p>
                     {/* Tech Stack Icons (Unchanged) */}
                     <div className="ts">
-                        <img src="/assets/html.svg" alt="HTML Logo" title="HTML Logo" loading="lazy"/>
-                        <img src="/assets/css.svg" alt="CSS Logo" title="CSS Logo" loading="lazy"/>
-                        <img src="/assets/sass.svg" alt="Sass Logo" title="Sass Logo" loading="lazy"/>
-                        <img src="/assets/tailwind.svg" alt="Tailwindcss Logo" title="Tailwindcss Logo" loading="lazy"/>
-                        <img src="/assets/postcss.svg" alt="Postcss Logo" title="Postcss Logo" loading="lazy"/>
-                        <img src="/assets/typescript.svg" alt="Typescript Logo" title="Typescript Logo" loading="lazy"/>
-                        <img src="/assets/nextjs.svg" alt="Next Js Logo" title="Next Js Logo" loading="lazy"/>
+                        <img src="/assets/html.svg" alt="HTML Logo" title="HTML Logo" loading="lazy" />
+                        <img src="/assets/css.svg" alt="CSS Logo" title="CSS Logo" loading="lazy" />
+                        <img src="/assets/sass.svg" alt="Sass Logo" title="Sass Logo" loading="lazy" />
+                        <img src="/assets/tailwind.svg" alt="Tailwindcss Logo" title="Tailwindcss Logo" loading="lazy" />
+                        <img src="/assets/postcss.svg" alt="Postcss Logo" title="Postcss Logo" loading="lazy" />
+                        <img src="/assets/typescript.svg" alt="Typescript Logo" title="Typescript Logo" loading="lazy" />
+                        <img src="/assets/nextjs.svg" alt="Next Js Logo" title="Next Js Logo" loading="lazy" />
                     </div>
                     <div className="ts">
-                        <img src="/assets/mysql.svg" alt="Mysql Logo" title="Mysql Logo" style={{width: "70px"}}
-                             loading="lazy"/>
+                        <img src="/assets/mysql.svg" alt="Mysql Logo" title="Mysql Logo" style={{ width: "70px" }}
+                            loading="lazy" />
                         <img src="/assets/Spring_Boot.svg" alt="SpringBoot Logo" title="SpringBoot Logo"
-                             loading="lazy"/>
-                        <img src="/assets/java.svg" alt="Java Logo" title="Java Logo" loading="lazy"/>
-                        <img src="/assets/python.svg" alt="Python Logo" title="Python Logo" loading="lazy"/>
-                        <img src="/assets/nginx.svg" alt="Nginx Logo" title="Nginx Logo" loading="lazy"/>
-                        <img src="/assets/apache.svg" alt="Apache Logo" title="Apache Logo" loading="lazy"/>
-                        <img src="/assets/docker.svg" alt="Docker Logo" title="Docker Logo" loading="lazy"/>
-                        <img src="/assets/aws.svg" alt="AWS Logo" title="AWS Logo" loading="lazy"/>
-                        <img src="/assets/cloudflare.svg" alt="CloudFlare Logo" title="CloudFlare Logo" loading="lazy"/>
+                            loading="lazy" />
+                        <img src="/assets/java.svg" alt="Java Logo" title="Java Logo" loading="lazy" />
+                        <img src="/assets/python.svg" alt="Python Logo" title="Python Logo" loading="lazy" />
+                        <img src="/assets/nginx.svg" alt="Nginx Logo" title="Nginx Logo" loading="lazy" />
+                        <img src="/assets/apache.svg" alt="Apache Logo" title="Apache Logo" loading="lazy" />
+                        <img src="/assets/docker.svg" alt="Docker Logo" title="Docker Logo" loading="lazy" />
+                        <img src="/assets/aws.svg" alt="AWS Logo" title="AWS Logo" loading="lazy" />
+                        <img src="/assets/cloudflare.svg" alt="CloudFlare Logo" title="CloudFlare Logo" loading="lazy" />
                     </div>
                 </div>
             </section>

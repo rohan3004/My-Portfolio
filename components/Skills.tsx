@@ -76,7 +76,7 @@ export default function Skills() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      
+
       gsap.from(".flux-header", {
         scrollTrigger: { trigger: ".flux-header", start: "top 80%" },
         y: 40, opacity: 0, duration: 1, ease: "power3.out"
@@ -94,14 +94,14 @@ export default function Skills() {
 
   return (
     <section id="skills" className="flux-wrapper" ref={containerRef}>
-      
+
       <div className="flux-header">
         <span className="flux-label">// Core Competencies</span>
         <h2 className="flux-title">Technical Expertise</h2>
       </div>
 
-      <div 
-        className="flux-grid" 
+      <div
+        className="flux-grid"
         ref={gridRef}
         onMouseMove={handleMouseMove}
       >
@@ -126,16 +126,6 @@ export default function Skills() {
           </div>
         ))}
       </div>
-
-      <div style={{textAlign: 'center', marginTop: '5rem', opacity: 0.5, cursor: 'pointer'}}>
-         <img 
-            src="/assets/arrow.svg" 
-            alt="Next" 
-            style={{width: '30px', filter: 'invert(1)'}}
-            onClick={() => location.href = '#photography'}
-         />
-      </div>
-
     </section>
   );
 }

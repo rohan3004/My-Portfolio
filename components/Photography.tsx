@@ -13,7 +13,7 @@ export default function Photography() {
   const [selectedImg, setSelectedImg] = useState<PhotoData | null>(null);
   const [photos, setPhotos] = useState<PhotoData[]>([]);
   const [developedId, setDevelopedId] = useState<number | null>(null);
-  
+
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [parallaxOffsets, setParallaxOffsets] = useState<number[]>([]);
@@ -36,9 +36,9 @@ export default function Photography() {
 
   useEffect(() => {
     const processed = rawPhotos.map((p, idx) => ({
-        ...p,
-        id: idx,
-        rotation: Math.random() * 4 - 2 
+      ...p,
+      id: idx,
+      rotation: Math.random() * 4 - 2
     }));
     setPhotos(processed);
     setParallaxOffsets(new Array(processed.length).fill(0));
@@ -49,18 +49,18 @@ export default function Photography() {
     const container = scrollContainerRef.current;
     const scrollLeft = container.scrollLeft;
     const width = container.clientWidth;
-    
+
     const index = Math.round(scrollLeft / (width * 0.8));
     setActiveIndex(Math.min(Math.max(index, 0), photos.length - 1));
 
     if (window.innerWidth <= 768) {
-        const newOffsets = photos.map((_, i) => {
-            const cardCenter = (i * width * 0.85) + (width * 0.85 / 2);
-            const viewCenter = scrollLeft + (width / 2);
-            const dist = viewCenter - cardCenter;
-            return dist * 0.15; 
-        });
-        setParallaxOffsets(newOffsets);
+      const newOffsets = photos.map((_, i) => {
+        const cardCenter = (i * width * 0.85) + (width * 0.85 / 2);
+        const viewCenter = scrollLeft + (width / 2);
+        const dist = viewCenter - cardCenter;
+        return dist * 0.15;
+      });
+      setParallaxOffsets(newOffsets);
     }
   };
 
@@ -79,7 +79,7 @@ export default function Photography() {
       <div className="paper-grain"></div>
 
       <section id="photography">
-        
+
         <div className="diary-header">
           <span className="diary-tag">// VISUAL ARCHIVES</span>
           <h1 className="diary-title">
@@ -88,48 +88,48 @@ export default function Photography() {
         </div>
 
         <div className="marker-hint">
-            <i className="fa-regular fa-hand-point-up"></i>
-            <span>Tap to Develop</span>
+          <i className="fa-regular fa-hand-point-up"></i>
+          <span>Tap to Develop</span>
         </div>
 
-        <div 
-            className="diary-grid" 
-            ref={scrollContainerRef}
-            onScroll={handleScroll}
+        <div
+          className="diary-grid"
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
         >
           {photos.map((photo, idx) => (
-            <div 
-              key={photo.id} 
+            <div
+              key={photo.id}
               className={`polaroid ${developedId === photo.id ? 'developed' : ''}`}
               style={{ '--rotation': `${photo.rotation}deg` } as React.CSSProperties}
               onClick={() => handlePhotoClick(photo)}
             >
               <div className="polaroid-frame">
-                  <img 
-                    src={photo.imageUrl} 
-                    alt={photo.caption} 
-                    className="polaroid-img"
-                    style={{
-                        transform: `scale(1.2) translateX(${parallaxOffsets[idx] || 0}px)`
-                    }}
-                    loading="lazy" 
-                  />
+                <img
+                  src={photo.imageUrl}
+                  alt={photo.caption}
+                  className="polaroid-img"
+                  style={{
+                    transform: `scale(1.2) translateX(${parallaxOffsets[idx] || 0}px)`
+                  }}
+                  loading="lazy"
+                />
               </div>
               <div className="polaroid-text">
-                  <span className="polaroid-caption">{photo.caption}</span>
-                  <span className="polaroid-meta">{photo.device}</span>
+                <span className="polaroid-caption">{photo.caption}</span>
+                <span className="polaroid-meta">{photo.device}</span>
               </div>
             </div>
           ))}
         </div>
 
         <div className="carousel-indicators">
-            {photos.map((_, i) => (
-                <div 
-                    key={i} 
-                    className={`c-dot ${i === activeIndex ? 'active' : ''}`}
-                ></div>
-            ))}
+          {photos.map((_, i) => (
+            <div
+              key={i}
+              className={`c-dot ${i === activeIndex ? 'active' : ''}`}
+            ></div>
+          ))}
         </div>
 
       </section>

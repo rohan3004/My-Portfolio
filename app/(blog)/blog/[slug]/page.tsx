@@ -84,8 +84,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                     <Link href="/blog" className="hover:text-gray-900 dark:hover:text-white">Archive</Link>
                     <span>/</span>
                     <span className="text-gray-900 dark:text-white truncate max-w-[200px] font-medium">
-             {post.frontmatter.title}
-           </span>
+                        {post.frontmatter.title}
+                    </span>
                 </div>
             </div>
 
@@ -113,12 +113,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                     <div className="col-span-1 lg:col-span-7">
                         <header className="mb-12">
                             <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 rounded-full border border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">
-                  Engineering
-                </span>
+                                <span className="px-3 py-1 rounded-full border border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">
+                                    Engineering
+                                </span>
                                 <span className="px-3 py-1 rounded-full border border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider">
-                  {readTime} min read
-                </span>
+                                    {readTime} min read
+                                </span>
                             </div>
 
                             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white leading-[1.1] mb-8">

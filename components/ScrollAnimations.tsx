@@ -1,7 +1,7 @@
 "use client";
-import {useLayoutEffect} from "react";
+import { useLayoutEffect } from "react";
 import gsap from "gsap";
-import {ScrollTrigger} from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -32,19 +32,19 @@ export default function ScrollAnimations() {
         const tl = gsap.timeline();
         tl.fromTo(
             ".section__pic-container img",
-            {scale: 0.8, opacity: 0, filter: "blur(10px)"},
-            {scale: 1, opacity: 1, filter: "blur(0px)", duration: 1.5, ease: "power3.out"}
+            { scale: 0.8, opacity: 0, filter: "blur(10px)" },
+            { scale: 1, opacity: 1, filter: "blur(0px)", duration: 1.5, ease: "power3.out" }
         )
             .fromTo(
                 [".section__text__p1", ".title", ".section__text__p2"],
-                {y: 50, opacity: 0},
-                {y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power3.out"},
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power3.out" },
                 "-=1"
             )
             .fromTo(
                 ".btn-container",
-                {y: 20, opacity: 0},
-                {y: 0, opacity: 1, duration: 0.8, ease: "power2.out"},
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" },
                 "-=0.5"
             );
 
@@ -55,7 +55,7 @@ export default function ScrollAnimations() {
         sections.forEach((section) => {
             gsap.fromTo(
                 section,
-                {opacity: 0, y: 50},
+                { opacity: 0, y: 50 },
                 {
                     opacity: 1,
                     y: 0,
@@ -72,16 +72,16 @@ export default function ScrollAnimations() {
 
         // 4. STAGGERED CARDS
         const staggerGroups = [
-            {container: "#repo-container", item: ".repo-card"},
-            {container: "#sp", item: ".instagram-photo"},
-            {container: ".about-containers", item: ".details-container"}
+            { container: "#repo-container", item: ".repo-card" },
+            { container: "#sp", item: ".instagram-photo" },
+            { container: ".about-containers", item: ".details-container" }
         ];
 
         staggerGroups.forEach((group) => {
             if (document.querySelector(group.container)) {
                 gsap.fromTo(
                     group.item,
-                    {y: 50, opacity: 0, scale: 0.95},
+                    { y: 50, opacity: 0, scale: 0.95 },
                     {
                         y: 0,
                         opacity: 1,

@@ -12,9 +12,9 @@ const THEME = {
     text: '#e0e0e0',
     grid: 'rgba(255, 255, 255, 0.05)',
     leetcode: '#FFA116',
-    codechef: '#b16f59', 
-    codeforces: '#318CE7', 
-    gfg: '#2F8D46', 
+    codechef: '#b16f59',
+    codeforces: '#318CE7',
+    gfg: '#2F8D46',
 };
 
 export default function Stats() {
@@ -46,41 +46,41 @@ export default function Stats() {
                 duration: 0.8,
                 ease: "power3.out"
             })
-            // 2. Main Dashboard Expands (Scale Up)
-            .from(".holo-dashboard", {
-                scale: 0.95,
-                opacity: 0,
-                duration: 0.8,
-                ease: "back.out(1.7)"
-            }, "-=0.6")
-            // 3. Left Panel slides from left
-            .from(".holo-orb-panel", {
-                x: -50,
-                opacity: 0,
-                duration: 0.6,
-                ease: "power3.out"
-            }, "-=0.5")
-            // 4. Right Panel slides from right
-            .from(".holo-deck-panel", {
-                x: 50,
-                opacity: 0,
-                duration: 0.6,
-                ease: "power3.out"
-            }, "<") // "<" means start at same time as previous animation
-            // 5. Tabs fade in
-            .from(".holo-tabs", {
-                y: 10,
-                opacity: 0,
-                duration: 0.4
-            }, "-=0.2")
-            // 6. Metrics Stagger (The "Data Loading" effect)
-            .from(".holo-metric-box", {
-                y: 20,
-                opacity: 0,
-                duration: 0.5,
-                stagger: 0.1, // 0.1s delay between each box
-                ease: "back.out(1.2)"
-            }, "-=0.2");
+                // 2. Main Dashboard Expands (Scale Up)
+                .from(".holo-dashboard", {
+                    scale: 0.95,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "back.out(1.7)"
+                }, "-=0.6")
+                // 3. Left Panel slides from left
+                .from(".holo-orb-panel", {
+                    x: -50,
+                    opacity: 0,
+                    duration: 0.6,
+                    ease: "power3.out"
+                }, "-=0.5")
+                // 4. Right Panel slides from right
+                .from(".holo-deck-panel", {
+                    x: 50,
+                    opacity: 0,
+                    duration: 0.6,
+                    ease: "power3.out"
+                }, "<") // "<" means start at same time as previous animation
+                // 5. Tabs fade in
+                .from(".holo-tabs", {
+                    y: 10,
+                    opacity: 0,
+                    duration: 0.4
+                }, "-=0.2")
+                // 6. Metrics Stagger (The "Data Loading" effect)
+                .from(".holo-metric-box", {
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.5,
+                    stagger: 0.1, // 0.1s delay between each box
+                    ease: "back.out(1.2)"
+                }, "-=0.2");
 
         }, containerRef);
 
@@ -122,7 +122,7 @@ export default function Stats() {
                 ctx.font = `bold ${fontSize} "Space Grotesk", sans-serif`;
                 ctx.fillStyle = '#fff';
                 ctx.fillText(total, width / 2, height / 2 - 10);
-                
+
                 ctx.font = '0.7rem "JetBrains Mono", monospace';
                 ctx.fillStyle = '#888';
                 ctx.fillText("SOLVED", width / 2, height / 2 + 15);
@@ -146,8 +146,8 @@ export default function Stats() {
                 maintainAspectRatio: false,
                 cutout: '85%',
                 plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                animation: { 
-                    animateScale: true, 
+                animation: {
+                    animateScale: true,
                     animateRotate: true,
                     duration: 2000, // Slower ChartJS animation to match GSAP
                     easing: 'easeOutQuart'
@@ -211,7 +211,7 @@ export default function Stats() {
     // 4. Data Mapping
     const getActiveStats = () => {
         if (!apiData) return null;
-        switch(platform) {
+        switch (platform) {
             case 'leetcode':
                 return [
                     { label: "Global Rank", value: apiData.leetcode?.rank_global || 'N/A' },
@@ -254,26 +254,26 @@ export default function Stats() {
             </div>
 
             <div className="holo-dashboard">
-                
+
                 {/* ORB PANEL */}
                 <div className="holo-orb-panel">
                     <div className="holo-chart-container">
                         <canvas ref={pieChartRef}></canvas>
                     </div>
                     <div className="holo-legend">
-                        <div className="holo-legend-item"><div className="holo-dot" style={{background: THEME.leetcode}}></div> LC</div>
-                        <div className="holo-legend-item"><div className="holo-dot" style={{background: THEME.codeforces}}></div> CF</div>
-                        <div className="holo-legend-item"><div className="holo-dot" style={{background: THEME.codechef}}></div> CC</div>
-                        <div className="holo-legend-item"><div className="holo-dot" style={{background: THEME.gfg}}></div> GFG</div>
+                        <div className="holo-legend-item"><div className="holo-dot" style={{ background: THEME.leetcode }}></div> LC</div>
+                        <div className="holo-legend-item"><div className="holo-dot" style={{ background: THEME.codeforces }}></div> CF</div>
+                        <div className="holo-legend-item"><div className="holo-dot" style={{ background: THEME.codechef }}></div> CC</div>
+                        <div className="holo-legend-item"><div className="holo-dot" style={{ background: THEME.gfg }}></div> GFG</div>
                     </div>
                 </div>
 
                 {/* DECK PANEL */}
                 <div className="holo-deck-panel">
-                    
+
                     <div className="holo-tabs">
                         {['leetcode', 'codeforces', 'codechef', 'geeksforgeeks'].map(p => (
-                            <button 
+                            <button
                                 key={p}
                                 onClick={() => setPlatform(p)}
                                 className={`holo-tab-btn ${platform === p ? 'active' : ''}`}
@@ -289,7 +289,7 @@ export default function Stats() {
                                 <div key={idx} className="holo-metric-box">
                                     <span className="holo-m-label">
                                         {stat.label}
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M0 10V0H10V1H1V10H0Z" fill="currentColor" opacity="0.5"/></svg>
+                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M0 10V0H10V1H1V10H0Z" fill="currentColor" opacity="0.5" /></svg>
                                     </span>
                                     <span className="holo-m-value">
                                         {loading ? "..." : stat.value}

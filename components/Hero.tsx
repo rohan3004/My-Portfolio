@@ -26,10 +26,10 @@ export default function Hero() {
                 const hls = new Hls();
                 hls.loadSource(src);
                 hls.attachMedia(videoRef.current);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => videoRef.current?.play().catch(() => {}));
+                hls.on(Hls.Events.MANIFEST_PARSED, () => videoRef.current?.play().catch(() => { }));
             } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
                 videoRef.current.src = src;
-                videoRef.current.addEventListener("loadedmetadata", () => videoRef.current?.play().catch(() => {}));
+                videoRef.current.addEventListener("loadedmetadata", () => videoRef.current?.play().catch(() => { }));
             }
         }
 
@@ -40,11 +40,11 @@ export default function Hero() {
                 const city = ipData?.cityNames?.en || "Kolkata";
                 const wRes = await fetch(`https://api.weatherapi.com/v1/current.json?key=fc9c2d13772441e9b72191328240604&q=${city}`);
                 const wData = await wRes.json();
-                setWeather({city: city.toUpperCase(), ...wData});
+                setWeather({ city: city.toUpperCase(), ...wData });
 
                 const res = await fetch('https://apis.byrohan.in/v1/reports/rohan.chakravarty02@gmail.com');
                 const data = await res.json();
-                
+
                 let total = 0;
                 if (data.codechef?.problems_solved_total) total += data.codechef.problems_solved_total;
                 if (data.leetcode?.problems_solved_total) total += data.leetcode.problems_solved_total;
@@ -53,16 +53,16 @@ export default function Hero() {
 
                 setStats({
                     q: total,
-                    sub: data.leetcode?.platform_specific?.top_percentage || "N/A", 
+                    sub: data.leetcode?.platform_specific?.top_percentage || "N/A",
                     streak: data.leetcode?.streak_max || 0,
-                    stars: parseInt(data.codechef?.platform_specific?.contest_rank_stars || "0"), 
+                    stars: parseInt(data.codechef?.platform_specific?.contest_rank_stars || "0"),
                     badges: data.leetcode?.platform_specific?.badges || 0,
                     activeDays: data.leetcode?.platform_specific?.total_active_days || 0,
                     loaded: true
                 });
             } catch (e) {
-                setStats(prev => ({...prev, loaded: true}));
-                setWeather({city: "KOLKATA", current: {temp_c: "24", condition: {text: "Online"}}});
+                setStats(prev => ({ ...prev, loaded: true }));
+                setWeather({ city: "KOLKATA", current: { temp_c: "24", condition: { text: "Online" } } });
             }
         };
         fetchData();
@@ -70,14 +70,14 @@ export default function Hero() {
 
     return (
         <div className="sys-hero-container" id="hero">
-            
+
             <div className="sys-video-layer">
                 <video ref={videoRef} id="player" autoPlay muted loop playsInline></video>
             </div>
             <div className="sys-vignette"></div>
 
             <div className="sys-interface">
-                
+
                 {/* Mobile HUD */}
                 <div className="sys-top-bar">
                     <div className="hud-badge">
@@ -91,7 +91,7 @@ export default function Hero() {
                 {/* LEFT */}
                 <div className="sys-module">
                     <div className="sys-tag">&gt; Hello, World!</div>
-                    <h1 className="sys-name">Rohan<br/>Chakravarty</h1>
+                    <h1 className="sys-name">Rohan<br />Chakravarty</h1>
                     <p className="sys-role-text">
                         <span>Backend & Cloud Engineer.</span> Building scalable microservices, distributed systems, and DevOps pipelines.
                     </p>
@@ -111,7 +111,7 @@ export default function Hero() {
                         <span>// WIDGET_PANE</span>
                         <span>[ACTIVE]</span>
                     </div>
-                    
+
                     <div className="term-body">
                         {/* 6 Stats Grid */}
                         <div className="term-grid">
@@ -137,7 +137,7 @@ export default function Hero() {
                             </div>
                             <div className="metric-block">
                                 <span className="mb-label">Rating</span>
-                                <span className="mb-value" style={{color: '#fbbf24'}}>{stats.loaded ? stats.stars : "2"}★</span>
+                                <span className="mb-value" style={{ color: '#fbbf24' }}>{stats.loaded ? stats.stars : "2"}★</span>
                                 <span className="mb-sub">CODECHEF</span>
                             </div>
                             <div className="metric-block">

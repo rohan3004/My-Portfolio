@@ -1,5 +1,5 @@
 "use client";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 export default function Cursor() {
@@ -37,13 +37,13 @@ export default function Cursor() {
 
         // 3. Hover Effects (Scale up on clickable items)
         const handleHover = () => {
-            gsap.to(followerRef.current, {scale: 3, opacity: 0.5, duration: 0.3});
-            gsap.to(cursorRef.current, {scale: 0, duration: 0.3}); // Hide dot inside
+            gsap.to(followerRef.current, { scale: 3, opacity: 0.5, duration: 0.3 });
+            gsap.to(cursorRef.current, { scale: 0, duration: 0.3 }); // Hide dot inside
         };
 
         const handleLeave = () => {
-            gsap.to(followerRef.current, {scale: 1, opacity: 1, duration: 0.3});
-            gsap.to(cursorRef.current, {scale: 1, duration: 0.3});
+            gsap.to(followerRef.current, { scale: 1, opacity: 1, duration: 0.3 });
+            gsap.to(cursorRef.current, { scale: 1, duration: 0.3 });
         };
 
         // Attach listeners
@@ -67,12 +67,12 @@ export default function Cursor() {
     }, [isMobile]);
 
     // Mobile: Render nothing (CSS handles the dot) or simple fallback
-    if (isMobile) return <div className="mobile-cursor-dot"/>;
+    if (isMobile) return <div className="mobile-cursor-dot" />;
 
     return (
         <>
-            <div ref={cursorRef} className="cursor-dot"/>
-            <div ref={followerRef} className="cursor-follower"/>
+            <div ref={cursorRef} className="cursor-dot" />
+            <div ref={followerRef} className="cursor-follower" />
         </>
     );
 }

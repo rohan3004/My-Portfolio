@@ -12,16 +12,16 @@ import ScrollAnimations from "@/components/ScrollAnimations"; // Import the new 
 export default function Home() {
     return (
         <main>
-            <ScrollAnimations/>
-            <MusicPlayer/>
-            <Navbar/>
-            <Hero/>
-            <Stats/>
-            <Experience/>
-            <Projects/>
-            <Skills/>
-            <Photography/>
-            <Contact/>
+            <ScrollAnimations />
+            <MusicPlayer />
+            <Navbar />
+            <Hero />
+            <Stats />
+            <Experience />
+            <Projects />
+            <Skills />
+            <Photography />
+            <Contact />
         </main>
     );
 }

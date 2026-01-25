@@ -1,4 +1,4 @@
-import type {Metadata} from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 import Cursor from "@/components/Cursor";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -28,13 +28,13 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
         <html lang="en">
-        <body><Cursor/>{children}</body>
+            <body><Cursor />{children}</body>
         </html>
     );
 }
