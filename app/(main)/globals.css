@@ -3783,11 +3783,12 @@ body, button, input {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* =========================================
-   "THE SYSTEM CORE v9" (Final Polish)
+   "THE SYSTEM CORE v12" (Final Fixes)
    ========================================= */
 
-html, body {
-    margin: 0; padding: 0; width: 100%; overflow-x: hidden;
+/* Global box-sizing is crucial for padding */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 .sys-hero-container {
@@ -3796,14 +3797,12 @@ html, body {
     --sys-accent: #b16f59;
     --sys-success: #00ff9d;
     --sys-text: #e0e0e0;
-    --font-disp: 'Space Grotesk', sans-serif;
-    --font-code: 'JetBrains Mono', monospace;
 
     position: relative; width: 100%;
-    min-height: 100dvh; 
+    min-height: 100dvh; /* Dynamic Height */
     background: var(--sys-bg); color: var(--sys-text);
-    display: flex; flex-direction: column; padding: 0;
-    font-family: var(--font-disp);
+    display: flex; flex-direction: column;
+    padding: 0;
 }
 
 /* --- VIDEO LAYER --- */
@@ -3823,12 +3822,25 @@ html, body {
 
 /* --- INTERFACE --- */
 .sys-interface {
-    position: relative; z-index: 10; width: 100%; max-width: 1400px; margin: 0 auto;
-    display: flex; flex-direction: column; padding: 1.5rem; gap: 2rem; flex-grow: 1;
+    position: relative; z-index: 10;
+    width: 100%; max-width: 1400px; margin: 0 auto;
+    
+    /* Mobile: Stack items vertically with clear gaps */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 1.5rem; /* Safe padding */
+    gap: 3rem; /* Space between Name and Card */
+    flex-grow: 1;
 }
 
-/* --- MOBILE HUD (Visible Mobile Only) --- */
-.sys-top-bar { display: flex; justify-content: space-between; width: 100%; margin-bottom: 1rem; }
+/* --- MOBILE HUD (Strict Top Positioning) --- */
+.sys-top-bar {
+    display: flex; justify-content: space-between; 
+    width: 100%; 
+    margin-bottom: 1rem; /* Push text down */
+    position: relative; /* Ensure it takes up space */
+}
 .hud-badge {
     background: rgba(10, 10, 10, 0.8); border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px); padding: 8px 16px; border-radius: 40px;
@@ -3840,30 +3852,40 @@ html, body {
     border-radius: 50%; box-shadow: 0 0 8px var(--sys-success); animation: blink 2s infinite;
 }
 
-/* --- LEFT MODULE --- */
-.sys-module { display: flex; flex-direction: column; justify-content: center; flex-grow: 1; }
+/* --- LEFT MODULE (Text) --- */
+.sys-module {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
 
 .sys-tag {
     font-family: var(--font-code); font-size: 0.8rem; color: var(--sys-accent);
-    margin-bottom: 0.5rem; display: flex; align-items: center; gap: 12px;
+    margin-bottom: 0.8rem; display: flex; align-items: center; gap: 12px;
     text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700;
 }
 .sys-tag::before { content: ''; width: 30px; height: 2px; background: var(--sys-accent); }
 
 .sys-name {
-    font-size: 3rem; font-weight: 800; line-height: 0.95; text-transform: uppercase;
-    color: #fff; margin: 0 0 1rem 0; letter-spacing: -0.03em; word-break: break-word;
+    /* CLAMP: Resize font smoothly from Mobile (2.8rem) to Desktop (6.5rem) */
+    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    font-weight: 800; line-height: 1; text-transform: uppercase;
+    color: #fff; margin: 0 0 1.5rem 0; letter-spacing: -0.03em;
+    word-break: break-word; /* Prevent overflow */
 }
 
 .sys-role-text {
-    font-size: 1rem; color: rgba(255, 255, 255, 0.8); font-weight: 400; margin-bottom: 2rem; line-height: 1.5;
+    font-size: 1rem; color: rgba(255, 255, 255, 0.8); font-weight: 400;
+    margin-bottom: 2rem; line-height: 1.5; max-width: 500px;
 }
 .sys-role-text span { color: #fff; font-weight: 600; border-bottom: 1px solid var(--sys-accent); }
 
-.sys-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.sys-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1rem; width: 100%; }
 .sys-btn {
     font-family: var(--font-code); font-size: 0.8rem; text-transform: uppercase;
-    padding: 14px 0; width: 100%; justify-content: center;
+    padding: 16px 0; /* Taller touch target */
+    width: 100%; /* Full width on mobile */
+    justify-content: center;
     background: rgba(0,0,0,0.4); border: 1px solid var(--sys-border);
     color: #fff; cursor: pointer; transition: all 0.3s ease;
     display: flex; align-items: center; gap: 10px; font-weight: 600; backdrop-filter: blur(5px);
@@ -3875,64 +3897,104 @@ html, body {
 .sys-terminal {
     background: rgba(10, 10, 10, 0.95);
     border: 1px solid #333;
-    display: flex; flex-direction: column; width: 100%;
-    /* Min height to look substantial on desktop */
-    min-height: 300px;
+    display: flex; flex-direction: column; 
+    width: 100%;
+    /* Remove fixed height to prevent gaps */
+    height: auto; 
 }
 
 .term-header {
-    background: #111; border-bottom: 1px solid #333; padding: 10px 15px;
+    background: #111; border-bottom: 1px solid #333; padding: 12px 20px;
     display: flex; justify-content: space-between; align-items: center;
     font-family: var(--font-code); font-size: 0.7rem; color: #666; letter-spacing: 0.1em;
 }
 
 .term-body {
     padding: 2rem;
-    display: flex; flex-direction: column; justify-content: center;
-    flex-grow: 1; /* Center vertically */
-    gap: 3rem;
+    display: flex; flex-direction: column;
+    /* This pushes the footer to the bottom if there is extra space */
+    flex-grow: 1; 
+    gap: 2rem;
 }
 
-/* Metrics Grid */
-.term-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.term-grid {
+    display: grid;
+    /* Mobile: 2 Columns */
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.5rem; /* Row Gap / Col Gap */
+}
+
 .metric-block { display: flex; flex-direction: column; }
-.mb-label { font-family: var(--font-code); font-size: 0.65rem; color: #888; text-transform: uppercase; margin-bottom: 4px; }
-.mb-value { font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1; }
+.mb-label { font-family: var(--font-code); font-size: 0.65rem; color: #888; text-transform: uppercase; margin-bottom: 6px; }
+.mb-value { font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1; }
 .mb-sub { font-size: 0.7rem; color: var(--sys-accent); margin-top: 4px; }
 
-/* Desktop Status Footer (New) */
+/* Desktop Footer */
 .term-footer {
-    border-top: 1px solid #333; padding: 15px 20px;
-    display: flex; justify-content: space-between; align-items: center;
+    display: none; /* Hidden on mobile */
+    border-top: 1px solid #333;
+    padding: 15px 20px;
+    justify-content: space-between; align-items: center;
     background: rgba(255,255,255,0.02);
+    /* Crucial Fix: Push to bottom */
+    margin-top: auto; 
 }
 .tf-item {
     font-family: var(--font-code); font-size: 0.75rem; color: #ccc;
     display: flex; align-items: center; gap: 10px; text-transform: uppercase;
 }
-.tf-item i { color: #666; }
 
-/* --- ANIMATIONS --- */
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-/* --- DESKTOP RULES --- */
+/* =========================================
+   DESKTOP RULES (Min-Width 1024px)
+   ========================================= */
 @media (min-width: 1024px) {
-    .sys-hero-container { height: 100dvh; overflow: hidden; justify-content: center; }
-    .sys-interface { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 6vw; padding: 0 4vw; }
-    .sys-top-bar { display: none; } /* Hide Mobile HUD */
+    .sys-hero-container {
+        height: 100dvh; 
+        overflow: hidden; 
+        justify-content: center;
+        padding: 0 4vw;
+    }
+
+    .sys-interface {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 6vw;
+        padding: 0;
+    }
+
+    /* Hide Mobile HUD */
+    .sys-top-bar { display: none; }
+
+    /* Desktop Typography */
     .sys-name { font-size: clamp(4rem, 6vw, 6.5rem); margin-bottom: 1.5rem; }
-    .sys-btn { width: auto; padding: 14px 32px; }
     
+    /* Desktop Buttons */
+    .sys-actions { justify-content: flex-start; }
+    .sys-btn { width: auto; padding: 14px 32px; }
+
+    /* Desktop Terminal */
     .sys-terminal {
-        height: auto;
+        height: auto; /* Fit content */
         box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         transform: perspective(1000px) rotateY(-5deg); transition: transform 0.3s;
     }
     .sys-terminal:hover { transform: perspective(1000px) rotateY(0deg); }
+
+    .term-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+        gap: 2.5rem;
+    }
+
+    .term-footer { display: flex; }
 }
 
-/* --- MOBILE TWEAKS --- */
-@media (max-width: 1024px) {
-    .term-grid { grid-template-columns: 1fr 1fr; }
-    .term-footer { display: none; } /* Hide desktop footer on mobile, rely on HUD */
+/* =========================================
+   TINY PHONE RULES (Max-Width 400px)
+   ========================================= */
+@media (max-width: 400px) {
+    .term-grid { grid-template-columns: 1fr; } /* Stack stats vertically */
+    .sys-name { font-size: 2.5rem; }
+    .sys-interface { padding: 4rem 1rem; }
 }
