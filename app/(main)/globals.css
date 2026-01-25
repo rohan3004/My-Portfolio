@@ -3134,7 +3134,6 @@ body, button, input {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-color: #0b050a;
     padding: 6rem 2rem;
     overflow: hidden;
 }
@@ -3450,7 +3449,6 @@ body, button, input {
    ========================================= */
 
 .diary-wrapper {
-    --bg-paper: #080808;
     --text-ink: #e0e0e0;
     --accent-tape: #b16f59;
     
@@ -3783,165 +3781,167 @@ body, button, input {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* =========================================
-   "THE SYSTEM CORE v12" (Final Fixes)
+   "SYSTEM CORE: VIDEO FIRST" (Final Fixed)
    ========================================= */
 
-/* Global box-sizing is crucial for padding */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
+/* Global box-sizing */
+*, *::before, *::after { box-sizing: border-box; }
 
 .sys-hero-container {
-    --sys-bg: #050505;
-    --sys-border: rgba(255, 255, 255, 0.15);
     --sys-accent: #b16f59;
     --sys-success: #00ff9d;
     --sys-text: #e0e0e0;
+    --font-disp: 'Space Grotesk', sans-serif;
+    --font-code: 'JetBrains Mono', monospace;
 
     position: relative; width: 100%;
-    min-height: 100dvh; /* Dynamic Height */
-    background: var(--sys-bg); color: var(--sys-text);
+    /* Ensure it fills the screen but allows scrolling if needed */
+    min-height: 100dvh; 
+    
+    color: var(--sys-text);
     display: flex; flex-direction: column;
+    justify-content: center; /* Center content vertically */
     padding: 0;
+    font-family: var(--font-disp);
 }
 
-/* --- VIDEO LAYER --- */
+/* --- VIDEO LAYER (The Star) --- */
 .sys-video-layer {
-    position: absolute; inset: 0; z-index: 0; opacity: 0.4;
-    filter: contrast(1.1) saturate(0); pointer-events: none;
+    position: absolute; inset: 0; z-index: 0;
+    opacity: 0.7; /* Increased opacity to show off the video */
+    /* Removed heavy contrast filter so colors pop more */
 }
 .sys-video-layer video { width: 100%; height: 100%; object-fit: cover; }
 
-.sys-grid-overlay {
+/* Subtle Vignette (Focuses eye on center) */
+.sys-vignette {
     position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(circle at center, transparent 30%, black 100%);
-    -webkit-mask-image: radial-gradient(circle at center, transparent 30%, black 100%);
+    background: radial-gradient(circle at center, transparent 40%, #000 100%);
 }
 
-/* --- INTERFACE --- */
+/* --- INTERFACE LAYOUT --- */
 .sys-interface {
     position: relative; z-index: 10;
     width: 100%; max-width: 1400px; margin: 0 auto;
     
-    /* Mobile: Stack items vertically with clear gaps */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 2rem 1.5rem; /* Safe padding */
-    gap: 3rem; /* Space between Name and Card */
-    flex-grow: 1;
+    /* Default: Mobile Column Layout */
+    display: flex; flex-direction: column;
+    padding: 6rem 1.5rem 2rem 1.5rem; /* Top padding clears mobile browser bars */
+    gap: 3rem;
 }
 
-/* --- MOBILE HUD (Strict Top Positioning) --- */
+/* --- MOBILE HUD (Top Bar) --- */
 .sys-top-bar {
-    display: flex; justify-content: space-between; 
-    width: 100%; 
-    margin-bottom: 1rem; /* Push text down */
-    position: relative; /* Ensure it takes up space */
+    display: flex; justify-content: space-between; width: 100%;
+    position: absolute; top: 1.5rem; left: 0; padding: 0 1.5rem;
 }
 .hud-badge {
-    background: rgba(10, 10, 10, 0.8); border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px); padding: 8px 16px; border-radius: 40px;
-    font-family: var(--font-code); font-size: 0.75rem; color: #fff;
+    background: rgba(0, 0, 0, 0.6); 
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px); 
+    padding: 8px 16px; border-radius: 40px;
+    font-family: var(--font-code); font-size: 0.7rem; color: #fff;
     display: flex; align-items: center; gap: 8px; text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 .blink-dot {
-    width: 8px; height: 8px; background: var(--sys-success);
+    width: 6px; height: 6px; background: var(--sys-success);
     border-radius: 50%; box-shadow: 0 0 8px var(--sys-success); animation: blink 2s infinite;
 }
 
 /* --- LEFT MODULE (Text) --- */
 .sys-module {
     display: flex; flex-direction: column;
-    justify-content: center;
-    width: 100%;
+    justify-content: center; width: 100%;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8); /* Make text readable over video */
 }
 
 .sys-tag {
     font-family: var(--font-code); font-size: 0.8rem; color: var(--sys-accent);
     margin-bottom: 0.8rem; display: flex; align-items: center; gap: 12px;
-    text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
 }
 .sys-tag::before { content: ''; width: 30px; height: 2px; background: var(--sys-accent); }
 
 .sys-name {
-    /* CLAMP: Resize font smoothly from Mobile (2.8rem) to Desktop (6.5rem) */
-    font-size: clamp(2.8rem, 7vw, 6.5rem);
-    font-weight: 800; line-height: 1; text-transform: uppercase;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 800; line-height: 0.95; text-transform: uppercase;
     color: #fff; margin: 0 0 1.5rem 0; letter-spacing: -0.03em;
-    word-break: break-word; /* Prevent overflow */
 }
 
 .sys-role-text {
-    font-size: 1rem; color: rgba(255, 255, 255, 0.8); font-weight: 400;
+    font-size: 1.1rem; color: rgba(255, 255, 255, 0.9); font-weight: 400;
     margin-bottom: 2rem; line-height: 1.5; max-width: 500px;
 }
-.sys-role-text span { color: #fff; font-weight: 600; border-bottom: 1px solid var(--sys-accent); }
+.sys-role-text span { color: #fff; font-weight: 600; border-bottom: 2px solid var(--sys-accent); }
 
-.sys-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1rem; width: 100%; }
+/* Buttons */
+.sys-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; width: 100%; }
 .sys-btn {
     font-family: var(--font-code); font-size: 0.8rem; text-transform: uppercase;
-    padding: 16px 0; /* Taller touch target */
-    width: 100%; /* Full width on mobile */
+    padding: 16px 32px; 
+    width: 100%; /* Mobile full width */
     justify-content: center;
-    background: rgba(0,0,0,0.4); border: 1px solid var(--sys-border);
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px solid rgba(255,255,255,0.2);
     color: #fff; cursor: pointer; transition: all 0.3s ease;
-    display: flex; align-items: center; gap: 10px; font-weight: 600; backdrop-filter: blur(5px);
+    display: flex; align-items: center; gap: 10px; font-weight: 600; 
+    backdrop-filter: blur(10px);
 }
-.sys-btn:hover { border-color: var(--sys-accent); background: rgba(177, 111, 89, 0.2); transform: translateY(-2px); }
+.sys-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: #fff; transform: translateY(-2px); }
 .sys-btn.primary { background: #fff; color: #000; border-color: #fff; }
+.sys-btn.primary:hover { background: #e0e0e0; }
 
-/* --- RIGHT: TELEMETRY TERMINAL --- */
+/* --- RIGHT: GLASS TERMINAL --- */
 .sys-terminal {
-    background: rgba(10, 10, 10, 0.95);
-    border: 1px solid #333;
-    display: flex; flex-direction: column; 
-    width: 100%;
-    /* Remove fixed height to prevent gaps */
-    height: auto; 
+    /* Highly Transparent Glass */
+    background: rgba(0, 0, 0, 0.4); 
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    
+    display: flex; flex-direction: column; width: 100%;
+    border-radius: 12px; /* Slight rounding for modern feel */
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
 }
 
 .term-header {
-    background: #111; border-bottom: 1px solid #333; padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.03); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+    padding: 12px 20px;
     display: flex; justify-content: space-between; align-items: center;
-    font-family: var(--font-code); font-size: 0.7rem; color: #666; letter-spacing: 0.1em;
+    font-family: var(--font-code); font-size: 0.7rem; color: #aaa; letter-spacing: 0.1em;
 }
 
 .term-body {
     padding: 2rem;
-    display: flex; flex-direction: column;
-    /* This pushes the footer to the bottom if there is extra space */
     flex-grow: 1; 
-    gap: 2rem;
 }
 
+/* Stats Grid */
 .term-grid {
     display: grid;
-    /* Mobile: 2 Columns */
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem 1.5rem; /* Row Gap / Col Gap */
+    grid-template-columns: 1fr 1fr; /* Mobile: 2 Cols */
+    gap: 2rem 1.5rem;
 }
 
 .metric-block { display: flex; flex-direction: column; }
-.mb-label { font-family: var(--font-code); font-size: 0.65rem; color: #888; text-transform: uppercase; margin-bottom: 6px; }
+.mb-label { font-family: var(--font-code); font-size: 0.65rem; color: #aaa; text-transform: uppercase; margin-bottom: 6px; }
 .mb-value { font-size: 1.6rem; font-weight: 700; color: #fff; line-height: 1; }
 .mb-sub { font-size: 0.7rem; color: var(--sys-accent); margin-top: 4px; }
 
-/* Desktop Footer */
+/* Footer */
 .term-footer {
     display: none; /* Hidden on mobile */
-    border-top: 1px solid #333;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding: 15px 20px;
     justify-content: space-between; align-items: center;
-    background: rgba(255,255,255,0.02);
-    /* Crucial Fix: Push to bottom */
+    background: rgba(0,0,0,0.2);
     margin-top: auto; 
 }
 .tf-item {
-    font-family: var(--font-code); font-size: 0.75rem; color: #ccc;
-    display: flex; align-items: center; gap: 10px; text-transform: uppercase;
+    font-family: var(--font-code); font-size: 0.7rem; color: #ccc;
+    display: flex; align-items: center; gap: 8px; text-transform: uppercase;
 }
 
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
@@ -3951,50 +3951,46 @@ body, button, input {
    ========================================= */
 @media (min-width: 1024px) {
     .sys-hero-container {
-        height: 100dvh; 
-        overflow: hidden; 
-        justify-content: center;
+        height: 100dvh; overflow: hidden; /* Lock scroll */
         padding: 0 4vw;
     }
 
     .sys-interface {
         display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
+        grid-template-columns: 1.1fr 0.9fr; /* Side by side */
         gap: 6vw;
         padding: 0;
+        height: auto;
     }
 
-    /* Hide Mobile HUD */
-    .sys-top-bar { display: none; }
+    .sys-top-bar { display: none; } /* Hide mobile badges */
 
-    /* Desktop Typography */
-    .sys-name { font-size: clamp(4rem, 6vw, 6.5rem); margin-bottom: 1.5rem; }
-    
-    /* Desktop Buttons */
+    /* Typography */
+    .sys-name { margin-bottom: 1.5rem; }
     .sys-actions { justify-content: flex-start; }
-    .sys-btn { width: auto; padding: 14px 32px; }
+    .sys-btn { width: auto; }
 
     /* Desktop Terminal */
     .sys-terminal {
-        height: auto; /* Fit content */
-        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        transform: perspective(1000px) rotateY(-5deg); transition: transform 0.3s;
+        /* Tilt effect */
+        transform: perspective(1000px) rotateY(-5deg);
+        transition: transform 0.3s ease;
     }
     .sys-terminal:hover { transform: perspective(1000px) rotateY(0deg); }
 
     .term-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+        grid-template-columns: repeat(3, 1fr); /* 3 Cols */
         gap: 2.5rem;
     }
 
-    .term-footer { display: flex; }
+    .term-footer { display: flex; } /* Show footer */
 }
 
 /* =========================================
-   TINY PHONE RULES (Max-Width 400px)
+   SMALL MOBILE RULES (Max-Width 400px)
    ========================================= */
 @media (max-width: 400px) {
-    .term-grid { grid-template-columns: 1fr; } /* Stack stats vertically */
-    .sys-name { font-size: 2.5rem; }
-    .sys-interface { padding: 4rem 1rem; }
+    .sys-name { font-size: 2rem; }
+    /* Stack stats vertically on tiny screens to prevent squash */
+    .term-grid { grid-template-columns: 1fr; gap: 1.5rem; } 
 }
