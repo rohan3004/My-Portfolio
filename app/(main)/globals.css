@@ -3147,7 +3147,7 @@ body, button, input {
 }
 
 .sys-label {
-    color: #a0a0a0; /* Changed from Bronze to Neutral Grey */
+    color: #b16f59; /* Changed from Bronze to Neutral Grey */
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85rem;
     letter-spacing: 0.2em;
@@ -3474,7 +3474,7 @@ body, button, input {
     font-weight: 600;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #666;
+    color: #b16f59;
     margin-bottom: 1rem;
     display: block;
 }
@@ -3993,4 +3993,698 @@ body, button, input {
     .sys-name { font-size: 2rem; }
     /* Stack stats vertically on tiny screens to prevent squash */
     .term-grid { grid-template-columns: 1fr; gap: 1.5rem; } 
+}
+/* --- NEBULA DOCK NAVIGATION (Responsive Fix) --- */
+
+:root {
+  --nebula-bg: rgba(20, 20, 20, 0.85); /* Darker for better contrast */
+  --nebula-border: rgba(255, 255, 255, 0.15);
+  --nebula-hover: rgba(255, 255, 255, 0.15);
+  --nebula-glow: rgba(255, 255, 255, 0.8);
+  --nebula-text: #ffffff;
+  --nebula-anim: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nebula-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  z-index: 9999;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  
+  /* Desktop Default */
+  width: auto;
+  max-width: 90vw;
+  pointer-events: none;
+}
+
+.nebula-container.nebula-hidden {
+  transform: translateX(-50%) translateY(160%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nebula-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--nebula-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--nebula-border);
+  border-radius: 9999px;
+  box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+}
+
+/* Items */
+.nebula-separator {
+  width: 1px; height: 20px; background: rgba(255,255,255,0.2);
+  margin: 0 0.25rem; flex-shrink: 0;
+}
+
+.nebula-link {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; /* Standard Size */
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  transition: var(--nebula-anim);
+  flex-shrink: 0; /* Crucial: Prevents squashing */
+}
+
+.nebula-link:hover {
+  background: var(--nebula-hover); color: #fff;
+  transform: translateY(-4px) scale(1.1);
+}
+
+.nebula-link svg { width: 20px; height: 20px; stroke: currentColor; fill: none; }
+
+.nebula-logo-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%; overflow: hidden;
+  border: 2px solid transparent; transition: var(--nebula-anim);
+  flex-shrink: 0; cursor: pointer;
+}
+.nebula-logo-btn:hover { border-color: var(--nebula-glow); transform: scale(1.05); }
+.nebula-logo-img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Tooltip (Desktop Only) */
+.nebula-tooltip {
+  position: absolute; top: -40px; left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  background: #fff; color: #000;
+  padding: 4px 8px; border-radius: 6px;
+  font-size: 0.7rem; font-weight: 700;
+  opacity: 0; pointer-events: none;
+  transition: 0.2s ease; white-space: nowrap;
+}
+.nebula-link:hover .nebula-tooltip { opacity: 1; transform: translateX(-50%) scale(1); top: -45px; }
+
+
+/* =========================================
+   MOBILE RESPONSIVENESS (Max-Width: 480px)
+   ========================================= */
+@media (max-width: 480px) {
+  .nebula-container {
+    bottom: 1rem;
+    width: 96%; /* Take up almost full width */
+    max-width: 100%;
+  }
+
+  .nebula-dock {
+    width: 100%;
+    justify-content: flex-start; /* Align left to allow scrolling */
+    overflow-x: auto; /* ENABLE SCROLLING */
+    padding: 0.5rem;
+    gap: 0.25rem;
+    
+    /* Smooth Scroll Snap */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    
+    /* Hide scrollbar */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+  }
+  .nebula-dock::-webkit-scrollbar { display: none; }
+
+  /* Shrink items slightly for mobile */
+  .nebula-link, .nebula-logo-btn {
+    width: 40px; height: 40px;
+    scroll-snap-align: center; /* Snaps icon to center when scrolling */
+  }
+
+  /* Disable hover effects on touch */
+  .nebula-link:hover { transform: none; background: transparent; color: #fff; }
+  .nebula-tooltip { display: none; } /* No tooltips on mobile */
+  
+  /* Gradient masks to hint scrolling */
+  .nebula-container::after {
+    content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 20px;
+    background: linear-gradient(to right, transparent, rgba(0,0,0,0.5));
+    border-radius: 0 99px 99px 0; pointer-events: none;
+  }
+}
+
+
+/* =========================================
+   "HOLOGRAPHIC DATA DECK v3" (Responsive & Real Data)
+   ========================================= */
+
+:root {
+  --holo-bg: rgba(15, 15, 15, 0.6);
+  --holo-border: rgba(255, 255, 255, 0.08);
+  --holo-accent: #b16f59;
+  --holo-text-main: #ffffff;
+  --holo-text-dim: #888888;
+  --holo-glass: blur(20px);
+}
+
+.holo-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  color: var(--holo-text-main);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.holo-header { text-align: center; margin-bottom: 3rem; }
+.holo-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--holo-accent);
+  letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; display: block;
+}
+.holo-title {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 700;
+  background: linear-gradient(to bottom, #fff, #999);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* --- DASHBOARD CONTAINER --- */
+.holo-dashboard {
+  display: flex;
+  flex-direction: column; /* Mobile First: Stack Vertically */
+  background: var(--holo-bg);
+  border: 1px solid var(--holo-border);
+  backdrop-filter: var(--holo-glass); -webkit-backdrop-filter: var(--holo-glass);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px -10px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+
+/* --- LEFT PANEL: ORB --- */
+.holo-orb-panel {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 2rem;
+  border-bottom: 1px solid var(--holo-border); /* Divider on mobile */
+  width: 100%;
+}
+
+.holo-chart-container {
+  position: relative;
+  width: 220px; height: 220px;
+}
+
+.holo-legend {
+  display: flex; gap: 1rem; margin-top: 1.5rem;
+  flex-wrap: wrap; justify-content: center;
+}
+.holo-legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--holo-text-dim);
+}
+.holo-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* --- RIGHT PANEL: DECK --- */
+.holo-deck-panel {
+  display: flex; flex-direction: column; gap: 1.5rem;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+/* Tabs - Wrap on mobile */
+.holo-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--holo-border);
+  flex-wrap: wrap; 
+  gap: 4px;
+}
+.holo-tab-btn {
+  flex: 1 1 auto; /* Flexible width */
+  background: transparent; border: none; color: var(--holo-text-dim);
+  padding: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+  cursor: pointer; border-radius: 8px; transition: all 0.3s ease; text-transform: uppercase;
+  min-width: 80px; text-align: center;
+}
+.holo-tab-btn.active {
+  background: rgba(255, 255, 255, 0.1); color: #fff; font-weight: 700;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* Detail Grid */
+.holo-detail-card {
+  display: flex; flex-direction: column; gap: 1.5rem;
+}
+
+.holo-metric-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile: 1 Column */
+  gap: 1rem;
+}
+
+.holo-metric-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--holo-border);
+  padding: 1.25rem; border-radius: 16px;
+  display: flex; flex-direction: column;
+}
+
+.holo-m-label {
+  font-size: 0.7rem; color: var(--holo-text-dim); text-transform: uppercase;
+  margin-bottom: 0.5rem; font-family: 'JetBrains Mono', monospace;
+  display: flex; justify-content: space-between;
+}
+.holo-m-value {
+  font-size: 1.4rem; font-weight: 700; color: #fff; line-height: 1;
+  word-break: break-all;
+}
+
+/* Sparkline */
+.holo-sparkline {
+  height: 60px; width: 100%; position: relative; opacity: 0.6;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* =========================================
+   DESKTOP RULES (Min-Width 1024px)
+   ========================================= */
+@media (min-width: 768px) {
+    .holo-metric-grid {
+        grid-template-columns: 1fr 1fr; /* 2 Columns on Tablets */
+    }
+}
+
+@media (min-width: 1024px) {
+  .holo-dashboard {
+    flex-direction: row; /* Desktop: Side by Side */
+  }
+  
+  .holo-orb-panel {
+    flex: 0 0 350px;
+    border-right: 1px solid var(--holo-border);
+    border-bottom: none;
+    padding: 2rem;
+  }
+  
+  .holo-deck-panel {
+    flex: 1;
+    padding: 2.5rem;
+    gap: 2rem;
+  }
+  
+  .holo-metric-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  .holo-m-value { font-size: 1.8rem; }
+}
+
+/* =========================================
+   "CHRONO-LOG INTERFACE" (Experience Redesign)
+   ========================================= */
+
+:root {
+  --chrono-bg: rgba(10, 10, 10, 0.6);
+  --chrono-border: rgba(255, 255, 255, 0.08);
+  --chrono-accent: #b16f59; /* Rose Copper */
+  --chrono-text-main: #ffffff;
+  --chrono-text-dim: #888888;
+  --chrono-glass: blur(12px);
+  --chrono-line: rgba(255, 255, 255, 0.1);
+}
+
+.chrono-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 6rem 1.5rem;
+  color: var(--chrono-text-main);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow: hidden;
+}
+
+.chrono-header {
+  text-align: center;
+  margin-bottom: 5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.chrono-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--chrono-accent);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.chrono-title {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  background: linear-gradient(180deg, #fff, #666);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- THE TIMELINE CONTAINER --- */
+.chrono-system {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Gap handled by padding inside items */
+}
+
+/* The Vertical Trace Line */
+.chrono-trace-line {
+  position: absolute;
+  left: 24px; /* Align with node center */
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    var(--chrono-accent) 10%, 
+    var(--chrono-accent) 90%, 
+    transparent 100%
+  );
+  z-index: 0;
+  opacity: 0.3;
+}
+
+/* --- INDIVIDUAL ITEM (NODE) --- */
+.chrono-node {
+  position: relative;
+  display: grid;
+  grid-template-columns: 50px 1fr; /* Icon Area | Content Area */
+  gap: 2rem;
+  padding-bottom: 4rem;
+  z-index: 1;
+}
+
+/* The Glowing Orb Icon */
+.chrono-orb-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 0.5rem; /* Optical alignment */
+}
+
+.chrono-orb {
+  width: 16px;
+  height: 16px;
+  background: #000;
+  border: 2px solid var(--chrono-accent);
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 15px var(--chrono-accent);
+  transition: all 0.3s ease;
+}
+
+.chrono-node:hover .chrono-orb {
+  background: var(--chrono-accent);
+  transform: scale(1.3);
+}
+
+/* --- THE CARD --- */
+.chrono-card {
+  background: var(--chrono-bg);
+  border: 1px solid var(--chrono-border);
+  backdrop-filter: var(--chrono-glass);
+  -webkit-backdrop-filter: var(--chrono-glass);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chrono-card:hover {
+  border-color: rgba(255,255,255,0.2);
+  transform: translateX(10px);
+}
+
+/* Card Header */
+.chrono-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.chrono-role {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.chrono-company {
+  font-size: 1.1rem;
+  color: var(--chrono-accent);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.chrono-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  background: rgba(255,255,255,0.05);
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: var(--chrono-text-dim);
+  border: 1px solid var(--chrono-border);
+}
+
+/* Content */
+.chrono-desc {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #ccc;
+  margin-bottom: 2rem;
+  font-family: 'Inter', sans-serif; /* Cleaner reading font */
+}
+
+/* Tech Stack Chips */
+.chrono-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  border-top: 1px solid var(--chrono-border);
+  padding-top: 1.5rem;
+}
+
+.chrono-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--chrono-text-dim);
+  background: rgba(0,0,0,0.3);
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+
+.chrono-chip:hover {
+  border-color: var(--chrono-accent);
+  color: #fff;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+  .chrono-wrapper {
+    padding: 4rem 1rem;
+  }
+  
+  .chrono-trace-line {
+    left: 19px; /* Adjust for smaller orb alignment if needed */
+  }
+
+  .chrono-node {
+    grid-template-columns: 40px 1fr; /* Tighter spacing */
+    gap: 1rem;
+    padding-bottom: 3rem;
+  }
+
+  .chrono-card:hover {
+    transform: none; /* Disable shift on touch */
+  }
+
+  .chrono-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .chrono-role { font-size: 1.25rem; }
+  .chrono-desc { font-size: 0.95rem; }
+}
+
+/* =========================================
+   "FLUX-MATRIX PRO" (Strict 3-Grid Layout)
+   ========================================= */
+
+:root {
+  --flux-card-bg: #0a0a0a;
+  --flux-border: rgba(255, 255, 255, 0.08);
+  --flux-accent: #b16f59;
+  --flux-text: #cccccc;
+}
+
+.flux-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+}
+
+.flux-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.flux-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--flux-accent);
+  letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; display: block;
+}
+
+.flux-title {
+  font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: #fff; letter-spacing: -0.02em;
+}
+
+/* --- STRICT GRID SYSTEM --- */
+.flux-grid {
+  display: grid;
+  /* Default (Mobile): 1 Column */
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  position: relative;
+  width: 100%;
+}
+
+/* --- CARD SHELL --- */
+.flux-card {
+  position: relative;
+  border-radius: 12px;
+  background-color: var(--flux-border); 
+  padding: 1px; 
+  overflow: hidden;
+  height: 100%; /* Force equal height */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Spotlight Effect */
+.flux-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(800px circle at var(--mouse-x, 50% 50%) var(--mouse-y, 50% 50%), rgba(177, 111, 89, 0.6), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.5s;
+  z-index: 1;
+  pointer-events: none;
+}
+.flux-grid:hover .flux-card::before { opacity: 1; }
+
+/* --- CARD CONTENT --- */
+.flux-inner {
+  position: relative;
+  background: var(--flux-card-bg);
+  border-radius: 11px;
+  padding: 2rem 1.5rem;
+  height: 100%; /* Fill parent height */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  z-index: 2;
+}
+
+/* Inner Depth Gradient */
+.flux-inner::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(600px circle at var(--mouse-x, 50% 50%) var(--mouse-y, 50% 50%), rgba(255, 255, 255, 0.03), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+.flux-grid:hover .flux-inner::after { opacity: 1; }
+
+/* Content Styles */
+.flux-icon-box {
+  width: 42px; height: 42px; border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--flux-accent);
+  transition: 0.3s;
+  flex-shrink: 0;
+}
+.flux-icon-svg { width: 20px; height: 20px; stroke-width: 1.5; stroke: currentColor; fill: none; }
+
+.flux-card:hover .flux-icon-box {
+  background: rgba(177, 111, 89, 0.1); border-color: var(--flux-accent); color: #fff;
+  box-shadow: 0 0 15px rgba(177, 111, 89, 0.2);
+}
+
+.flux-card-title {
+  font-size: 1.1rem; font-weight: 700; color: #fff;
+  font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.02em;
+}
+
+.flux-desc {
+  font-size: 0.85rem; color: #888; line-height: 1.6;
+  flex-grow: 1; /* Pushes tags to bottom */
+}
+
+.flux-tags {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;
+}
+.flux-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--flux-text);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px 8px; border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: 0.2s;
+}
+.flux-tag:hover {
+  background: rgba(255, 255, 255, 0.08); border-color: var(--flux-accent); color: #fff;
+}
+
+/* --- MEDIA QUERIES --- */
+
+/* Tablet: 2 Columns */
+@media (min-width: 768px) {
+  .flux-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop: Strict 3 Columns */
+@media (min-width: 1024px) {
+  .flux-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile Tweaks */
+@media (max-width: 768px) {
+  .flux-wrapper { padding: 4rem 1.25rem; }
+  .flux-card::before, .flux-inner::after { display: none; }
+  .flux-card { background: rgba(255,255,255,0.08); }
 }

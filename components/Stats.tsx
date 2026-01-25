@@ -1,50 +1,91 @@
 "use client";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import Chart from "chart.js/auto";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 const THEME = {
-    primary: '#b16f59', // Rose Copper
+    primary: '#b16f59',
     text: '#e0e0e0',
-    textDim: '#7a7a7a',
-    grid: 'rgba(255, 255, 255, 0.03)',
+    grid: 'rgba(255, 255, 255, 0.05)',
     leetcode: '#FFA116',
-    codechef: '#b16f59',
-    codeforces: '#1F8ACB',
-    gfg: '#2F8D46',
-};
-
-// Typewriter Component for the "Sci-Fi" text effect
-const Typewriter = ({text}: { text: string }) => {
-    const [displayedText, setDisplayedText] = useState("");
-
-    useEffect(() => {
-        setDisplayedText(""); // Reset
-        let i = 0;
-        const timer = setInterval(() => {
-            if (i < text.length) {
-                setDisplayedText((prev) => prev + text.charAt(i));
-                i++;
-            } else {
-                clearInterval(timer);
-            }
-        }, 20); // Typing Speed
-        return () => clearInterval(timer);
-    }, [text]);
-
-    return (
-        <span dangerouslySetInnerHTML={{__html: displayedText}}></span>
-    );
+    codechef: '#b16f59', 
+    codeforces: '#318CE7', 
+    gfg: '#2F8D46', 
 };
 
 export default function Stats() {
+    const containerRef = useRef<HTMLDivElement>(null);
     const lineChartRef = useRef<HTMLCanvasElement>(null);
     const pieChartRef = useRef<HTMLCanvasElement>(null);
     const lineChartInstance = useRef<Chart | null>(null);
     const pieChartInstance = useRef<Chart | null>(null);
 
     const [platform, setPlatform] = useState("leetcode");
-    const [logMessage, setLogMessage] = useState("Initializing System...");
     const [apiData, setApiData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    // --- GSAP ANIMATION SEQUENCE ---
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top 85%", // Start when top of section hits 85% of viewport
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // 1. Header fades in and slides down
+            tl.from(".holo-header", {
+                y: -30,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            })
+            // 2. Main Dashboard Expands (Scale Up)
+            .from(".holo-dashboard", {
+                scale: 0.95,
+                opacity: 0,
+                duration: 0.8,
+                ease: "back.out(1.7)"
+            }, "-=0.6")
+            // 3. Left Panel slides from left
+            .from(".holo-orb-panel", {
+                x: -50,
+                opacity: 0,
+                duration: 0.6,
+                ease: "power3.out"
+            }, "-=0.5")
+            // 4. Right Panel slides from right
+            .from(".holo-deck-panel", {
+                x: 50,
+                opacity: 0,
+                duration: 0.6,
+                ease: "power3.out"
+            }, "<") // "<" means start at same time as previous animation
+            // 5. Tabs fade in
+            .from(".holo-tabs", {
+                y: 10,
+                opacity: 0,
+                duration: 0.4
+            }, "-=0.2")
+            // 6. Metrics Stagger (The "Data Loading" effect)
+            .from(".holo-metric-box", {
+                y: 20,
+                opacity: 0,
+                duration: 0.5,
+                stagger: 0.1, // 0.1s delay between each box
+                ease: "back.out(1.2)"
+            }, "-=0.2");
+
+        }, containerRef);
+
+        return () => ctx.revert(); // Cleanup
+    }, []);
 
     // 1. Fetch Data
     useEffect(() => {
@@ -52,40 +93,39 @@ export default function Stats() {
             .then(res => res.json())
             .then(data => {
                 setApiData(data);
-                // Set initial message
-                if (data.leetcode) {
-                    setLogMessage(`>> ACCESSING LEETCODE MAINFRAME...<br/>>> USER RANK: TOP <span class="sys-highlight">${data.leetcode.platform_specific?.top_percentage}%</span><br/>>> SOLVED: <span class="sys-highlight">${data.leetcode.problems_solved_total}</span> UNITS<br/>>> STATUS: ONLINE`);
-                }
+                setLoading(false);
             })
-            .catch(() => setLogMessage(">> ERROR: CONNECTION FAILED. RETRYING..."));
+            .catch(() => setLoading(false));
     }, []);
 
-    // 2. Pie Chart
+    // 2. Pie Chart Logic
     useEffect(() => {
-        if (!pieChartRef.current) return;
+        if (!pieChartRef.current || !apiData) return;
         if (pieChartInstance.current) pieChartInstance.current.destroy();
 
-        const dataValues = apiData ? [
+        const dataValues = [
             apiData.leetcode?.problems_solved_total || 0,
             apiData.codeforces?.problems_solved_total || 0,
             apiData.codechef?.problems_solved_total || 0,
             apiData.geeksforgeeks?.problems_solved_total || 0
-        ] : [1, 1, 1, 1];
+        ];
+        const total = dataValues.reduce((a, b) => a + b, 0);
 
-        const total = dataValues.reduce((a: number, b: number) => a + b, 0);
-
-        // Holographic Center Text
-        const centerPlugin = {
+        const centerText = {
             id: 'centerText',
-            beforeDraw: function (chart: any) {
-                const {ctx, width, height} = chart;
+            beforeDraw: (chart: any) => {
+                const { ctx, width, height } = chart;
                 ctx.restore();
-                ctx.fillStyle = THEME.primary;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
+                const fontSize = width < 150 ? '1.5rem' : '2rem';
+                ctx.font = `bold ${fontSize} "Space Grotesk", sans-serif`;
+                ctx.fillStyle = '#fff';
                 ctx.fillText(total, width / 2, height / 2 - 10);
-                ctx.fillStyle = THEME.textDim;
-                ctx.fillText("SOLVED", width / 2, height / 2 + 20);
+                
+                ctx.font = '0.7rem "JetBrains Mono", monospace';
+                ctx.fillStyle = '#888';
+                ctx.fillText("SOLVED", width / 2, height / 2 + 15);
                 ctx.save();
             }
         };
@@ -96,18 +136,24 @@ export default function Stats() {
                 labels: ['LC', 'CF', 'CC', 'GFG'],
                 datasets: [{
                     data: dataValues,
-                    backgroundColor: [THEME.leetcode, THEME.codeforces, THEME.primary, THEME.gfg],
+                    backgroundColor: [THEME.leetcode, THEME.codeforces, THEME.codechef, THEME.gfg],
                     borderWidth: 0,
-                    hoverOffset: 15
+                    hoverOffset: 10,
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 cutout: '85%',
-                plugins: {legend: {display: false}} // Hide default legend for cleaner look
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                animation: { 
+                    animateScale: true, 
+                    animateRotate: true,
+                    duration: 2000, // Slower ChartJS animation to match GSAP
+                    easing: 'easeOutQuart'
+                }
             },
-            plugins: [centerPlugin]
+            plugins: [centerText]
         });
 
         return () => {
@@ -115,162 +161,149 @@ export default function Stats() {
         };
     }, [apiData]);
 
-    // 3. Line Chart & Text Update Logic
+    // 3. Line Chart Logic
     useEffect(() => {
         if (!lineChartRef.current) return;
         if (lineChartInstance.current) lineChartInstance.current.destroy();
 
-        // -- Update Text based on Platform --
-        if (apiData) {
-            let msg = "";
-            if (platform === 'leetcode' && apiData.leetcode) {
-                msg = `>> TARGET: LEETCODE<br/>>> RATING: <span class="sys-highlight">${apiData.leetcode.rating || 'N/A'}</span><br/>>> CONTESTS ATTENDED: <span class="sys-highlight">${apiData.leetcode.contests_attended || 0}</span><br/>>> GLOBAL RANKING: OPTIMIZED`;
-            } else if (platform === 'codeforces' && apiData.codeforces) {
-                msg = `>> TARGET: CODEFORCES<br/>>> MAX RATING: <span class="sys-highlight">${apiData.codeforces.rating_max || 'N/A'}</span><br/>>> CURRENT RANK: <span class="sys-highlight">${apiData.codeforces.rank || 'Unrated'}</span><br/>>> PROTOCOL: COMPETITIVE`;
-            } else if (platform === 'codechef' && apiData.codechef) {
-                msg = `>> TARGET: CODECHEF<br/>>> STAR RATING: <span class="sys-highlight">${apiData.codechef.platform_specific?.contest_rank_stars || 0}★</span><br/>>> CURRENT RATING: <span class="sys-highlight">${apiData.codechef.rating || 0}</span><br/>>> DEPLOYMENT: ACTIVE`;
-            } else if (platform === 'geeksforgeeks') {
-                msg = `>> TARGET: GFG<br/>>> STREAK INTEGRITY: <span class="sys-highlight">${apiData.geeksforgeeks?.streak_current || 0} DAYS</span><br/>>> TOTAL SOLVED: <span class="sys-highlight">${apiData.geeksforgeeks?.problems_solved_total || 0}</span><br/>>> CONSISTENCY: 100%`;
-            }
-            setLogMessage(msg);
-        }
-
-        // -- Generate Sci-Fi Chart Data --
-        const generateNoise = (base: number) => Array(8).fill(0).map((_, i) => i === 7 ? base : base - Math.random() * 100);
-        let chartData = Array(8).fill(0);
+        const generateGraph = (base: number) => Array(12).fill(0).map(() => base + (Math.random() * 50 - 25));
+        let chartData = Array(12).fill(100);
         let color = THEME.primary;
 
         if (apiData) {
-            if (platform === 'leetcode') {
-                chartData = generateNoise(apiData.leetcode?.rating || 1500);
-                color = THEME.leetcode;
-            }
-            if (platform === 'codeforces') {
-                chartData = generateNoise(apiData.codeforces?.rating || 800);
-                color = THEME.codeforces;
-            }
-            if (platform === 'codechef') {
-                chartData = generateNoise(apiData.codechef?.rating || 1000);
-                color = THEME.primary;
-            }
-            if (platform === 'geeksforgeeks') {
-                chartData = generateNoise(apiData.geeksforgeeks?.problems_solved_total || 500);
-                color = THEME.gfg;
-            }
+            if (platform === 'leetcode') { chartData = generateGraph(1600); color = THEME.leetcode; }
+            if (platform === 'codeforces') { chartData = generateGraph(1200); color = THEME.codeforces; }
+            if (platform === 'codechef') { chartData = generateGraph(1400); color = THEME.codechef; }
+            if (platform === 'geeksforgeeks') { chartData = generateGraph(800); color = THEME.gfg; }
         }
 
         const ctx = lineChartRef.current.getContext('2d');
         if (ctx) {
-            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            const gradient = ctx.createLinearGradient(0, 0, 0, 100);
             gradient.addColorStop(0, color);
             gradient.addColorStop(1, 'transparent');
 
             lineChartInstance.current = new Chart(lineChartRef.current, {
                 type: 'line',
                 data: {
-                    labels: ['', '', '', '', '', '', '', ''],
+                    labels: Array(12).fill(''),
                     datasets: [{
                         data: chartData,
                         borderColor: color,
-                        backgroundColor: gradient,
                         borderWidth: 2,
-                        pointRadius: 3,
-                        pointBackgroundColor: '#000',
-                        pointBorderColor: color,
-                        tension: 0.3,
-                        fill: true
+                        backgroundColor: gradient,
+                        fill: true,
+                        pointRadius: 0,
+                        tension: 0.4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {legend: {display: false}},
-                    scales: {
-                        x: {display: false},
-                        y: {display: false} // Hide Y axis for cleaner look
-                    }
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } },
+                    animation: { duration: 1000 }
                 }
             });
         }
-
-        return () => {
-            if (lineChartInstance.current) lineChartInstance.current.destroy();
-        };
     }, [platform, apiData]);
 
+    // 4. Data Mapping
+    const getActiveStats = () => {
+        if (!apiData) return null;
+        switch(platform) {
+            case 'leetcode':
+                return [
+                    { label: "Global Rank", value: apiData.leetcode?.rank_global || 'N/A' },
+                    { label: "Top %", value: apiData.leetcode?.platform_specific?.top_percentage || 'N/A' },
+                    { label: "Active Days", value: apiData.leetcode?.platform_specific?.total_active_days || 0 },
+                    { label: "Contests", value: apiData.leetcode?.contests_attended || 0 }
+                ];
+            case 'codechef':
+                return [
+                    { label: "Current Rating", value: apiData.codechef?.rating || 'N/A' },
+                    { label: "Stars", value: `${apiData.codechef?.platform_specific?.contest_rank_stars || 0}★` },
+                    { label: "Division", value: apiData.codechef?.platform_specific?.division || 'N/A' },
+                    { label: "Contests", value: apiData.codechef?.contests_attended || 0 }
+                ];
+            case 'codeforces':
+                return [
+                    { label: "Rating", value: apiData.codeforces?.rating || 'N/A' },
+                    { label: "Rank", value: apiData.codeforces?.rank || 'N/A' },
+                    { label: "Solved", value: apiData.codeforces?.problems_solved_total || 0 },
+                    { label: "Status", value: apiData.codeforces?.status || 'Inactive' }
+                ];
+            case 'geeksforgeeks':
+                return [
+                    { label: "Solved", value: apiData.geeksforgeeks?.problems_solved_total || 0 },
+                    { label: "Streak", value: apiData.geeksforgeeks?.streak_current || 'N/A' },
+                    { label: "Status", value: apiData.geeksforgeeks?.status || 'Unknown' },
+                    { label: "Source", value: "GeeksForGeeks" }
+                ];
+            default: return [];
+        }
+    };
+
+    const currentStats = getActiveStats();
+
     return (
-        <section id="about" style={{position: 'relative', zIndex: 2}}>
-            <p className="section__text__p1">System Analytics</p>
-            <h1 className="title">Fundamentals</h1>
-
-            <div className="bento-grid">
-
-                {/* LEFT: DONUT VISUALIZER */}
-                <div className="sci-card" style={{minHeight: '350px'}}>
-                    <div className="hud-header">
-                        <div className="hud-title"><i className="fa-solid fa-circle-nodes"></i> PLATFORM WISE</div>
-                        <div style={{fontSize: '0.7rem', color: THEME.textDim}}>v2.4.0</div>
-                    </div>
-                    <div style={{flex: 1, position: 'relative'}}>
-                        <canvas ref={pieChartRef}></canvas>
-                    </div>
-                    {/* Custom Legend */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        gap: '15px',
-                        marginTop: '10px',
-                        fontSize: '0.75rem',
-                        color: THEME.textDim
-                    }}>
-                        <span style={{color: THEME.leetcode}}>● LC</span>
-                        <span style={{color: THEME.codeforces}}>● CF</span>
-                        <span style={{color: THEME.primary}}>● CC</span>
-                        <span style={{color: THEME.gfg}}>● GFG</span>
-                    </div>
-                </div>
-
-                {/* RIGHT: COMMAND DECK */}
-                <div className="sci-card">
-                    <div className="hud-header" style={{flexWrap: 'wrap', gap: '10px'}}>
-                        <div className="hud-title"><i className="fa-solid fa-wave-square"></i> SUMMARY</div>
-
-                        {/* Sci-Fi Tabs */}
-                        <div className="cyber-tabs">
-                            {['leetcode', 'codechef', 'codeforces', 'geeksforgeeks'].map(p => (
-                                <button
-                                    key={p}
-                                    onClick={() => setPlatform(p)}
-                                    className={`cyber-tab-btn ${platform === p ? 'active' : ''}`}
-                                >
-                                    {p === 'geeksforgeeks' ? 'GFG' : p}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* CHART VIEWPORT */}
-                    <div style={{
-                        width: '100%',
-                        height: '180px',
-                        marginBottom: '20px',
-                        borderBottom: '1px solid rgba(255,255,255,0.05)'
-                    }}>
-                        <canvas ref={lineChartRef}></canvas>
-                    </div>
-
-                    {/* TERMINAL LOG (Responsive Text Area) */}
-                    <div className="hud-title" style={{marginBottom: '5px', fontSize: '0.75rem'}}>KEY_METRICS //</div>
-                    <div className="terminal-box">
-                        <Typewriter text={logMessage}/>
-                        <span className="terminal-cursor"></span>
-                    </div>
-                </div>
+        <div className="holo-wrapper" id="skills" ref={containerRef}>
+            <div className="holo-header">
+                <span className="holo-label">// Live Stats</span>
+                <h2 className="holo-title">Competetive Profile</h2>
             </div>
 
-            {/* Decorative arrow */}
-            <img src="/assets/arrow.svg" alt="Next" className="icon arrow"
-                 onClick={() => location.href = './#company'}/>
-        </section>
+            <div className="holo-dashboard">
+                
+                {/* ORB PANEL */}
+                <div className="holo-orb-panel">
+                    <div className="holo-chart-container">
+                        <canvas ref={pieChartRef}></canvas>
+                    </div>
+                    <div className="holo-legend">
+                        <div className="holo-legend-item"><div className="holo-dot" style={{background: THEME.leetcode}}></div> LC</div>
+                        <div className="holo-legend-item"><div className="holo-dot" style={{background: THEME.codeforces}}></div> CF</div>
+                        <div className="holo-legend-item"><div className="holo-dot" style={{background: THEME.codechef}}></div> CC</div>
+                        <div className="holo-legend-item"><div className="holo-dot" style={{background: THEME.gfg}}></div> GFG</div>
+                    </div>
+                </div>
+
+                {/* DECK PANEL */}
+                <div className="holo-deck-panel">
+                    
+                    <div className="holo-tabs">
+                        {['leetcode', 'codeforces', 'codechef', 'geeksforgeeks'].map(p => (
+                            <button 
+                                key={p}
+                                onClick={() => setPlatform(p)}
+                                className={`holo-tab-btn ${platform === p ? 'active' : ''}`}
+                            >
+                                {p === 'geeksforgeeks' ? 'GFG' : p === 'leetcode' ? 'LeetCode' : p === 'codeforces' ? 'CodeForces' : 'CodeChef'}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="holo-detail-card">
+                        <div className="holo-metric-grid">
+                            {currentStats && currentStats.map((stat, idx) => (
+                                <div key={idx} className="holo-metric-box">
+                                    <span className="holo-m-label">
+                                        {stat.label}
+                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M0 10V0H10V1H1V10H0Z" fill="currentColor" opacity="0.5"/></svg>
+                                    </span>
+                                    <span className="holo-m-value">
+                                        {loading ? "..." : stat.value}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="holo-sparkline">
+                            <canvas ref={lineChartRef}></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     );
 }

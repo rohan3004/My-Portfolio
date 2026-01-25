@@ -81,7 +81,7 @@ export default function Photography() {
       <section id="photography">
         
         <div className="diary-header">
-          <span className="diary-tag">VISUAL ARCHIVES</span>
+          <span className="diary-tag">// VISUAL ARCHIVES</span>
           <h1 className="diary-title">
             Chasing <span>Light</span>
           </h1>
