@@ -129,7 +129,7 @@ export default function Hero() {
                         {/* 3 */}
                         <div className="metric-block">
                             <span className="mb-label">Global Rank</span>
-                            <span className="mb-value">{ `Top ${parseFloat(stats.sub)}`}</span>
+                            <span className="mb-value">{ `Top ${parseFloat(stats.sub)}%`}</span>
                             <span className="mb-sub">LEETCODE</span>
                         </div>
                         {/* 4 */}
