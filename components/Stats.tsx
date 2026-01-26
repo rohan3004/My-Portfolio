@@ -12,9 +12,9 @@ const THEME = {
     text: '#e0e0e0',
     grid: 'rgba(255, 255, 255, 0.05)',
     leetcode: '#FFA116',
-    codechef: '#b16f59',
-    codeforces: '#318CE7',
-    gfg: '#2F8D46',
+    codechef: '#b16f59', 
+    codeforces: '#318CE7', 
+    gfg: '#2F8D46', 
 };
 
 export default function Stats() {
@@ -34,57 +34,33 @@ export default function Stats() {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: containerRef.current,
-                    start: "top 85%", // Start when top of section hits 85% of viewport
+                    start: "top 85%", 
                     toggleActions: "play none none reverse"
                 }
             });
 
-            // 1. Header fades in and slides down
             tl.from(".holo-header", {
-                y: -30,
-                opacity: 0,
-                duration: 0.8,
-                ease: "power3.out"
+                y: -30, opacity: 0, duration: 0.8, ease: "power3.out"
             })
-                // 2. Main Dashboard Expands (Scale Up)
-                .from(".holo-dashboard", {
-                    scale: 0.95,
-                    opacity: 0,
-                    duration: 0.8,
-                    ease: "back.out(1.7)"
-                }, "-=0.6")
-                // 3. Left Panel slides from left
-                .from(".holo-orb-panel", {
-                    x: -50,
-                    opacity: 0,
-                    duration: 0.6,
-                    ease: "power3.out"
-                }, "-=0.5")
-                // 4. Right Panel slides from right
-                .from(".holo-deck-panel", {
-                    x: 50,
-                    opacity: 0,
-                    duration: 0.6,
-                    ease: "power3.out"
-                }, "<") // "<" means start at same time as previous animation
-                // 5. Tabs fade in
-                .from(".holo-tabs", {
-                    y: 10,
-                    opacity: 0,
-                    duration: 0.4
-                }, "-=0.2")
-                // 6. Metrics Stagger (The "Data Loading" effect)
-                .from(".holo-metric-box", {
-                    y: 20,
-                    opacity: 0,
-                    duration: 0.5,
-                    stagger: 0.1, // 0.1s delay between each box
-                    ease: "back.out(1.2)"
-                }, "-=0.2");
+            .from(".holo-dashboard", {
+                scale: 0.95, opacity: 0, duration: 0.8, ease: "back.out(1.7)"
+            }, "-=0.6")
+            .from(".holo-orb-panel", {
+                x: -50, opacity: 0, duration: 0.6, ease: "power3.out"
+            }, "-=0.5")
+            .from(".holo-deck-panel", {
+                x: 50, opacity: 0, duration: 0.6, ease: "power3.out"
+            }, "<")
+            .from(".holo-tabs", {
+                y: 10, opacity: 0, duration: 0.4
+            }, "-=0.2")
+            .from(".holo-metric-box", {
+                y: 20, opacity: 0, duration: 0.5, stagger: 0.1, ease: "back.out(1.2)"
+            }, "-=0.2");
 
         }, containerRef);
 
-        return () => ctx.revert(); // Cleanup
+        return () => ctx.revert(); 
     }, []);
 
     // 1. Fetch Data
@@ -149,7 +125,7 @@ export default function Stats() {
                 animation: {
                     animateScale: true,
                     animateRotate: true,
-                    duration: 2000, // Slower ChartJS animation to match GSAP
+                    duration: 2000, 
                     easing: 'easeOutQuart'
                 }
             },
@@ -161,7 +137,7 @@ export default function Stats() {
         };
     }, [apiData]);
 
-    // 3. Line Chart Logic
+    // 3. Line Chart Logic (Simulated Trends)
     useEffect(() => {
         if (!lineChartRef.current) return;
         if (lineChartInstance.current) lineChartInstance.current.destroy();
@@ -172,9 +148,9 @@ export default function Stats() {
 
         if (apiData) {
             if (platform === 'leetcode') { chartData = generateGraph(1600); color = THEME.leetcode; }
-            if (platform === 'codeforces') { chartData = generateGraph(1200); color = THEME.codeforces; }
+            if (platform === 'codeforces') { chartData = generateGraph(700); color = THEME.codeforces; }
             if (platform === 'codechef') { chartData = generateGraph(1400); color = THEME.codechef; }
-            if (platform === 'geeksforgeeks') { chartData = generateGraph(800); color = THEME.gfg; }
+            if (platform === 'geeksforgeeks') { chartData = generateGraph(1300); color = THEME.gfg; }
         }
 
         const ctx = lineChartRef.current.getContext('2d');
@@ -208,37 +184,37 @@ export default function Stats() {
         }
     }, [platform, apiData]);
 
-    // 4. Data Mapping
+    // 4. Data Mapping (Recruiter Focused)
     const getActiveStats = () => {
         if (!apiData) return null;
         switch (platform) {
             case 'leetcode':
                 return [
-                    { label: "Global Rank", value: apiData.leetcode?.rank_global || 'N/A' },
-                    { label: "Top %", value: apiData.leetcode?.platform_specific?.top_percentage || 'N/A' },
-                    { label: "Active Days", value: apiData.leetcode?.platform_specific?.total_active_days || 0 },
-                    { label: "Contests", value: apiData.leetcode?.contests_attended || 0 }
+                    { label: "Top Percentile", value: apiData.leetcode?.platform_specific?.top_percentage || 'N/A' },
+                    { label: "Active Days", value: apiData.leetcode?.platform_specific?.total_active_days || 0 }, // 365 days is huge
+                    { label: "Hard Solved", value: apiData.leetcode?.problems_solved_hard || 0 }, // Shows depth
+                    { label: "Global Rank", value: apiData.leetcode?.rank_global || 'N/A' }
                 ];
             case 'codechef':
                 return [
                     { label: "Current Rating", value: apiData.codechef?.rating || 'N/A' },
-                    { label: "Stars", value: `${apiData.codechef?.platform_specific?.contest_rank_stars || 0}★` },
+                    { label: "Star Rating", value: `${apiData.codechef?.platform_specific?.contest_rank_stars || 0}★` },
                     { label: "Division", value: apiData.codechef?.platform_specific?.division || 'N/A' },
-                    { label: "Contests", value: apiData.codechef?.contests_attended || 0 }
+                    { label: "Problems Solved", value: apiData.codechef?.problems_solved_total || 0 }
                 ];
             case 'codeforces':
                 return [
-                    { label: "Rating", value: apiData.codeforces?.rating || 'N/A' },
-                    { label: "Rank", value: apiData.codeforces?.rank || 'N/A' },
-                    { label: "Solved", value: apiData.codeforces?.problems_solved_total || 0 },
-                    { label: "Status", value: apiData.codeforces?.status || 'Inactive' }
+                    { label: "Current Rating", value: apiData.codeforces?.rating || 'N/A' },
+                    { label: "Rank Tier", value: apiData.codeforces?.platform_specific?.max_rank ? apiData.codeforces.platform_specific.max_rank.toUpperCase() : 'N/A' },
+                    { label: "Total Solved", value: apiData.codeforces?.problems_solved_total || 0 },
+                    { label: "Max Streak", value: apiData.codeforces?.streak_max || 0 }
                 ];
             case 'geeksforgeeks':
                 return [
-                    { label: "Solved", value: apiData.geeksforgeeks?.problems_solved_total || 0 },
-                    { label: "Streak", value: apiData.geeksforgeeks?.streak_current || 'N/A' },
-                    { label: "Status", value: apiData.geeksforgeeks?.status || 'Unknown' },
-                    { label: "Source", value: "GeeksForGeeks" }
+                    { label: "POTD Solved", value: apiData.geeksforgeeks?.platform_specific?.potds_solved || 0 }, // High Value Metric
+                    { label: "Max Streak", value: apiData.geeksforgeeks?.streak_max || 0 }, // Discipline Indicator
+                    { label: "Coding Score", value: apiData.geeksforgeeks?.rating || 0 },
+                    { label: "Total Solved", value: apiData.geeksforgeeks?.problems_solved_total || 0 }
                 ];
             default: return [];
         }
@@ -249,8 +225,8 @@ export default function Stats() {
     return (
         <div className="holo-wrapper" id="skills" ref={containerRef}>
             <div className="holo-header">
-                <span className="holo-label">// Live Stats</span>
-                <h2 className="holo-title">Competetive Profile</h2>
+                <span className="holo-label">// Live Telemetry</span>
+                <h2 className="holo-title">Competitive Profile</h2>
             </div>
 
             <div className="holo-dashboard">
