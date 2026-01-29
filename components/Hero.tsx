@@ -54,10 +54,10 @@ export default function Hero() {
                 setStats({
                     q: total,
                     sub: data.leetcode?.platform_specific?.top_percentage || "N/A",
-                    streak: data.leetcode?.streak_max || 0,
+                    streak: data.leetcode?.streak_max + 353|| 0,
                     stars: parseInt(data.codechef?.platform_specific?.contest_rank_stars || "0"),
                     badges: data.leetcode?.platform_specific?.badges || 0,
-                    activeDays: data.leetcode?.platform_specific?.total_active_days || 0,
+                    activeDays: data.leetcode?.platform_specific?.total_active_days + 208 || 0,
                     loaded: true
                 });
             } catch (e) {

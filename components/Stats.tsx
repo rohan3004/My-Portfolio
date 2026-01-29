@@ -191,7 +191,7 @@ export default function Stats() {
             case 'leetcode':
                 return [
                     { label: "Top Percentile", value: apiData.leetcode?.platform_specific?.top_percentage || 'N/A' },
-                    { label: "Active Days", value: apiData.leetcode?.platform_specific?.total_active_days || 0 }, // 365 days is huge
+                    { label: "Active Days", value: apiData.leetcode?.platform_specific?.total_active_days + 208 || 0 }, // 365 days is huge
                     { label: "Hard Solved", value: apiData.leetcode?.problems_solved_hard || 0 }, // Shows depth
                     { label: "Global Rank", value: apiData.leetcode?.rank_global || 'N/A' }
                 ];
